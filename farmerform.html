@@ -308,6 +308,7 @@
         }).then(() => {
             alert("Details submitted for review! ");
             // window.location.href = 'loginACH.html';
+            farmerform.reset();
         }).catch((error) => {
             // alert("Registration unsuccessful. Please try again.");
             console.log("Error during farmerform submission: ", error);
