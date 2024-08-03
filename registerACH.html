@@ -131,13 +131,13 @@
                   <i class="fas fa-seedling"></i> ACH Register
               </div>
             </div>
-<form id="register-form" onsubmit="event.preventDefault(); window.location.href='product-view.html';">
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" style="width: 100%;" required > <br>
-            <label for="password">Password:</label> <br>
-            <input type="password" id="password" style="width: 100%;" required > <br>
-            <div style="text-align: left;"> <br>
-        <button type="submit">Register</button>
+<form id="register-form" onsubmit="event.preventDefault();">
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" style="width: 100%;" required> <br>
+    <label for="password">Password:</label> <br>
+    <input type="password" id="password" style="width: 100%;" required> <br>
+    <div style="text-align: left;"><br>
+        <button type="submit" class="btn btn-success btn-block">Register</button>
     </div>
 </form>
 
@@ -196,7 +196,7 @@
           event.preventDefault();
           document.getElementById('elderlyLoginForm').style.display = 'block';
           document.getElementById('elderlyRegisterForm').style.display = 'none';
-        }); -->
+        });
   
         // User Type Toggle
         document.getElementById('toggleFarmer').addEventListener('click', function () {
