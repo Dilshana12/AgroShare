@@ -83,14 +83,14 @@
     }
   </style>
 
-  <scritp type="module" src="registerACH.js" defer></scritp>
+  <!-- <scritp type="module" src="registerACH.js" defer></scritp> -->
 
 </head>
 
 <body class="products-page">
   <!-- Video Background -->
   <video autoplay muted loop class="video-background">
-    <source src="C:\Users\Najma\Documents\ANC\Research Final\Project-Agro\assets\Video\8540468-hd_1920_1080_30fps.mp4"
+    <source src="assets/Video/8540468-hd_1920_1080_30fps.mp4"
       type="video/mp4">
     Your browser does not support the video tag.
   </video>
@@ -310,7 +310,7 @@
             Password: password,
             Code: uniqueCode
           }).then(() => {
-            // alert("Registration successful! Redirecting to login page...");
+            alert("Registration successful! Redirecting to login page...");
             window.location.href = 'loginACH.html';
           }).catch((error) => {
             alert("Registration unsuccessful. Please try again.");
