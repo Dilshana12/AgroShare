@@ -131,7 +131,7 @@
                 <i class="fas fa-seedling"></i> ACH Register
             </div>
           </div>
-          <form id="registrationForm">
+          <form id="registrationFormACH">
             <label for="email">Email:</label><br>
             <input type="email" id="email" style="width: 100%;" required> <br>
             <label for="password">Password:</label> <br>
@@ -278,7 +278,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+    document.getElementById('registrationFormACH').addEventListener('submit', function (event) {
       event.preventDefault();
 
       console.log("Registration form submitted!");  // Debugging step 1

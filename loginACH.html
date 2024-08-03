@@ -132,7 +132,7 @@
           </div>
 
           <!-- login elderly home -->
-          <form id="loginForm">
+          <form id="loginFormACH">
             <label for="email">Email:</label><br>
             <input type="email" id="email" required style="width: 100%;"> <br>
 
@@ -283,7 +283,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    document.getElementById('loginForm').addEventListener('submit', function (event) {
+    document.getElementById('loginFormACH').addEventListener('submit', function (event) {
       event.preventDefault();
 
       let email = document.getElementById('email').value;
