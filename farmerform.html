@@ -275,44 +275,46 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    document.addEventListener('DOMContentLoaded', (event) => {
-        document.getElementById('farmerform').addEventListener('submit', function (event) {
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
 
+const storage = getStorage(app);
 
-            // document.getElementById('farmerform').addEventListener('submit', function (event) {
-            // event.preventDefault();
+document.getElementById('farmerform').addEventListener('submit', function (event) {
+    event.preventDefault();
 
-            console.log("farmerform form submitted!");  // Debugging step 1
+    // Your existing form data retrieval
+    let farmName = document.getElementById('farmName').value;
+    let farmProvince = document.getElementById('farmProvince').value;
+    let productType = document.getElementById('productType').value;
+    let productName = document.getElementById('productName').value;
+    let productImage = document.getElementById('productImage').files[0];  // Get the file from input
 
-            let farmName = document.getElementById('farmName').value;
-            let farmProvince = document.getElementById('farmProvince').value;
-            let productType = document.getElementById('productType').value;
-            let productName = document.getElementById('productName').value;
-            let productImage = document.getElementById('productImage').value;
-            let farmerForm = document.getElementById('farmerform');
+    if (!farmName || !farmProvince || !productType || !productName || !productImage) {
+        alert("Please fill out all fields.");
+        return;
+    }
 
-            if (!farmName || !farmProvince || !productType || !productName || !productImage) {
-                alert("Please fill out all fields.");
-                return;
-            }
+    const uniqueCode = 'ProductID_' + Date.now();
+    const imageRef = storageRef(storage, 'productImages/' + uniqueCode);
 
-            const uniqueCode = 'ProductID_' + Date.now();
-
-            set(ref(db, 'Farmer_Form/' + uniqueCode), {
-                FarmName: farmName,
-                FarmProvince: farmProvince,
-                ProductType: productType,
-                ProductName: productName,
-                ProductID: uniqueCode,
-                // ProductImage: productImage, // You'll need to handle file uploads separately
-            }).then(() => {
-                alert("Registration successful!");
-                farmerForm.reset(); // Reset the form after successful submission
-            }).catch((error) => {
-                console.log("Error during submission: ", error);
-            });
+    uploadBytes(imageRef, productImage).then((snapshot) => {
+        return getDownloadURL(imageRef);
+    }).then((downloadURL) => {
+        return set(ref(db, 'Farmer_Form/' + uniqueCode), {
+            FarmName: farmName,
+            FarmProvince: farmProvince,
+            ProductType: productType,
+            ProductName: productName,
+            ProductID: uniqueCode,
+            ProductImage: downloadURL
         });
+    }).then(() => {
+        alert("Registration successful!");
+        document.getElementById('farmerform').reset();  // Reset the form after successful submission
+    }).catch((error) => {
+        console.log("Error during submission: ", error);
     });
+});
 
 
 </script>
