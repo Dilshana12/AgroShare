@@ -402,28 +402,125 @@
       //   this.classList.add('was-validated'); // Add validation feedback
       // }, false);
 
-      </script>
+    </script>
 
-      <script type="module">
-        import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-        import {query, get, orderByChild, equalTo, ref, set, getDatabase} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+    <!-- JavaScript to Generate Reservation Number, Handle Form Submission, and Download File -->
+    <script>
+      let globalReservationNumber = '';
 
-        const firebaseConfig = {
-          apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+
+
+      function generateReservationNumber() {
+        return Math.floor(10000000000 + Math.random() * 90000000000);
+      }
+
+      function updateReservationNumber() {
+        const reservationNumber = globalReservationNumber;
+        document.getElementById('reservationNumber').textContent = reservationNumber;
+
+        const text = `Thank You!\n \n\nYour Reservation Number: ${reservationNumber}`;
+        // const lines = [
+        //   'Thank You!',
+        //   'You Just Saved a Meal',
+        //   '',
+        //   `Your Reservation Number: ${reservationNumber}`
+        // ];
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = 1920;
+        canvas.height = 1080;
+        context.fillStyle = 'white';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.font = '40px Arial';
+        context.fillStyle = 'black';
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+        const imageUrl = canvas.toDataURL('image/png');
+        const blob = dataURLtoBlob(imageUrl);
+        const url = URL.createObjectURL(blob);
+
+        const downloadLink = document.getElementById('downloadLink');
+        downloadLink.href = url;
+        downloadLink.download = 'reservation.png';
+
+        // Redirect when the modal is hidden
+        const modalElement = document.getElementById('thankYouModal');
+        modalElement.addEventListener('hidden.bs.modal', function () {
+          window.location.href = 'product-view.html';
+        });
+      }
+
+      function dataURLtoBlob(dataURL) {
+        const [header, data] = dataURL.split(',');
+        const mimeString = header.split(':')[1].split(';')[0];
+        const byteString = atob(data);
+        const arrayBuffer = new ArrayBuffer(byteString.length);
+        const uint8Array = new Uint8Array(arrayBuffer);
+        for (let i = 0; i < byteString.length; i++) {
+          uint8Array[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([arrayBuffer], { type: mimeString });
+      }
+
+      document.getElementById('reservationForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        console.log("reservationForm form submitted!");
+
+        let date = document.getElementById('date').value;
+        let time = document.getElementById('time').value;
+        let phone = document.getElementById('phone').value;
+        let reservationForm = document.getElementById('reservationForm');
+
+        if (date === "" || time === "" || phone === "") {
+          alert("Please fill out all fields.");
+          return;
+        }
+
+        globalReservationNumber = 'OrderID_' + Date.now();
+
+        set(ref(db, 'ReservationDetails/' + globalReservationNumber), {
+          date: date,
+          time: time,
+          phone: phone,
+          OrderID: globalReservationNumber,
+        }).then(() => {
+          var modalInstance = new bootstrap.Modal(document.getElementById('thankYouModal'));
+          modalInstance.show();
+          console.log("reservationForm form submitted!");
+          reservationForm.reset(); // Reset the form after successful submission
+        }).catch((error) => {
+          console.log("Error during submission: ", error);
+        });
+      });
+
+      document.getElementById('thankYouModal').addEventListener('show.bs.modal', updateReservationNumber);
+    </script>
+
+    <script type="module">
+      // Handle form submission
+
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+      import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
         authDomain: "agrosharetest.firebaseapp.com",
         databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
         projectId: "agrosharetest",
         storageBucket: "agrosharetest.appspot.com",
         messagingSenderId: "609785482458",
         appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
-    };
+      };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
 
 
-        document.getElementById('reservationForm').addEventListener('submit', function (event) {
-          event.preventDefault();
+      document.getElementById('reservationForm').addEventListener('submit', function (event) {
+        event.preventDefault();
 
         console.log("reservationForm form submitted!");  // Debugging step 1
 
@@ -432,32 +529,36 @@
         let phone = document.getElementById('phone').value;
         let reservationForm = document.getElementById('reservationForm');
 
-
         if (date === "" || time === "" || phone === "") {
           alert("Please fill out all fields.");
-        return;
+          return;
         }
 
-        const uniqueCode = 'OrderID_' + Date.now();
+        globalReservationNumber = 'OrderID_' + Date.now();
 
-        set(ref(db, 'ReservationDetails/' + uniqueCode), {
+        set(ref(db, 'ReservationDetails/' + globalReservationNumber), {
           date: date,
-        time: time,
-        phone: phone,
-        OrderID: uniqueCode,
-          // ProductImage: productImage, // You'll need to handle file uploads separately
+          time: time,
+          phone: phone,
+          OrderID: globalReservationNumber,
         }).then(() => {
           var modalInstance = new bootstrap.Modal(document.getElementById('thankYouModal'));
-        modalInstance.show();
-        console.log("reservationForm form submitted!");  // Debugging step 1
-        reservationForm.reset(); // Reset the form after successful submission
+          modalInstance.show();
+          console.log("reservationForm form submitted!");  // Debugging step 1
+
+          // reservationForm.reset(); // Reset the form after successful submission
+
+          // window.location.href = 'product-view.html';
         }).catch((error) => {
           console.log("Error during submission: ", error);
         });
       });
 
+      // Add event listener to update reservation number when the modal is about to be shown
+      document.getElementById('thankYouModal').addEventListener('show.bs.modal', updateReservationNumber);
 
     </script>
+
 
 
 

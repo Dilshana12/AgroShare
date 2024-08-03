@@ -499,11 +499,10 @@
       document.getElementById('thankYouModal').addEventListener('show.bs.modal', updateReservationNumber);
     </script>
 
+    <!-- Ensure that this script tag is added after the Firebase SDK script tags -->
     <script type="module">
-      // Handle form submission
-
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-      import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+      import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
@@ -518,46 +517,47 @@
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
 
-
       document.getElementById('reservationForm').addEventListener('submit', function (event) {
         event.preventDefault();
-
-        console.log("reservationForm form submitted!");  // Debugging step 1
 
         let date = document.getElementById('date').value;
         let time = document.getElementById('time').value;
         let phone = document.getElementById('phone').value;
-        let reservationForm = document.getElementById('reservationForm');
 
         if (date === "" || time === "" || phone === "") {
           alert("Please fill out all fields.");
           return;
         }
 
-        globalReservationNumber = 'OrderID_' + Date.now();
+        const reservationNumber = 'OrderID_' + Date.now();
 
-        set(ref(db, 'ReservationDetails/' + globalReservationNumber), {
+        set(ref(db, 'ReservationDetails/' + reservationNumber), {
           date: date,
           time: time,
           phone: phone,
-          OrderID: globalReservationNumber,
+          OrderID: reservationNumber,
         }).then(() => {
           var modalInstance = new bootstrap.Modal(document.getElementById('thankYouModal'));
           modalInstance.show();
-          console.log("reservationForm form submitted!");  // Debugging step 1
-
-          // reservationForm.reset(); // Reset the form after successful submission
-
-          // window.location.href = 'product-view.html';
+          document.getElementById('reservationForm').reset(); // Reset the form after successful submission
         }).catch((error) => {
           console.log("Error during submission: ", error);
         });
       });
 
-      // Add event listener to update reservation number when the modal is about to be shown
-      document.getElementById('thankYouModal').addEventListener('show.bs.modal', updateReservationNumber);
+      document.getElementById('thankYouModal').addEventListener('show.bs.modal', function () {
+        const reservationNumber = 'OrderID_' + Date.now();
+        document.getElementById('reservationNumber').textContent = reservationNumber;
 
+        // Code to generate the PNG image for download
+        // ...
+      });
+
+      document.getElementById('thankYouModal').addEventListener('hidden.bs.modal', function () {
+        window.location.href = 'product-view.html';
+      });
     </script>
+
 
 
 
