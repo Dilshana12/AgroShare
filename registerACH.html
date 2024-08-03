@@ -137,7 +137,7 @@
             <label for="password">Password:</label> <br>
             <input type="password" id="password" style="width: 100%;" required> <br>
             <div style="text-align: left;"><br>
-              <button type="submit" id="register">Register</button>
+              <button type="submit" id="registerACH">Register</button>
             </div>
           </form>
 
@@ -293,7 +293,7 @@
 
       console.log("Checking if email exists...");  // Debugging step 2
 
-      const emailRef = ref(db, 'ACH_registerdetailsdetails');
+      const emailRef = ref(db, 'ACH_registerdetails');
       const emailQuery = query(emailRef, orderByChild('Email'), equalTo(email));
 
       get(emailQuery).then((snapshot) => {
@@ -305,7 +305,7 @@
 
           const uniqueCode = 'ACH_' + Date.now();
 
-          set(ref(db, 'ACH_registerdetailsdetails/' + uniqueCode), {
+          set(ref(db, 'ACH_registerdetails/' + uniqueCode), {
             Email: email,
             Password: password,
             Code: uniqueCode

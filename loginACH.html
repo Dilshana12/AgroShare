@@ -294,7 +294,7 @@
         return;
       }
 
-      const userRef = ref(db, 'ACH_registerdetailsdetails');
+      const userRef = ref(db, 'ACH_registerdetails');
       const userQuery = query(userRef, orderByChild('Email'), equalTo(email));
 
       get(userQuery).then((snapshot) => {
