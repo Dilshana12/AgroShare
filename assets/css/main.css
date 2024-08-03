@@ -2485,3 +2485,6 @@ body {
   box-shadow: 0 0 0 4px rgba(29, 155, 37, 0.4); /* Green focus ring */
 }
 
+.img_delights {
+  max-height: 700px;
+}

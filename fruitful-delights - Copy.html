@@ -402,95 +402,28 @@
       //   this.classList.add('was-validated'); // Add validation feedback
       // }, false);
 
-    </script>
+      </script>
 
-    <!-- JavaScript to Generate Reservation Number, Handle Form Submission, and Download File -->
-    <script>
-      let globalReservationNumber = '';
+      <script type="module">
+        import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+        import {query, get, orderByChild, equalTo, ref, set, getDatabase} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
-      // Function to generate a random 11-digit number
-      function generateReservationNumber() {
-        return Math.floor(10000000000 + Math.random() * 90000000000);
-      }
-
-      // Function to update the reservation number and prepare the PNG image for download
-      function updateReservationNumber() {
-        // Use the global reservation number
-        const reservationNumber = globalReservationNumber;
-        document.getElementById('reservationNumber').textContent = reservationNumber;
-
-        // Create file content as text
-        const text = `Thank You!\nYou Just Saved a Meal\n\nYour Reservation Number: ${reservationNumber}`;
-
-        // Create a canvas element
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-
-        // Set canvas size
-        canvas.width = 1080;
-        canvas.height = 1080;
-
-        // Fill canvas background with white color
-        context.fillStyle = 'white';
-        context.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Set font properties
-        context.font = '30px Arial';
-        context.fillStyle = 'black';
-        context.textAlign = 'center';
-
-        // Draw text on canvas
-        context.fillText(text, canvas.width / 2, canvas.height / 2);
-
-        // Convert canvas to PNG
-        const imageUrl = canvas.toDataURL('image/png');
-
-        // Create a Blob from the image URL
-        const blob = dataURLtoBlob(imageUrl);
-        const url = URL.createObjectURL(blob);
-
-        // Update download link
-        const downloadLink = document.getElementById('downloadLink');
-        downloadLink.href = url;
-        downloadLink.download = 'reservation.png'; // Name of the downloaded file
-      }
-
-      // Helper function to convert dataURL to Blob
-      function dataURLtoBlob(dataURL) {
-        const [header, data] = dataURL.split(',');
-        const mimeString = header.split(':')[1].split(';')[0];
-        const byteString = atob(data);
-        const arrayBuffer = new ArrayBuffer(byteString.length);
-        const uint8Array = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < byteString.length; i++) {
-          uint8Array[i] = byteString.charCodeAt(i);
-        }
-        return new Blob([arrayBuffer], { type: mimeString });
-      }
-
-    </script>
-    <script type="module">
-      // Handle form submission
-
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-      import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+        const firebaseConfig = {
+          apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
         authDomain: "agrosharetest.firebaseapp.com",
         databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
         projectId: "agrosharetest",
         storageBucket: "agrosharetest.appspot.com",
         messagingSenderId: "609785482458",
         appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
-      };
+    };
 
-      const app = initializeApp(firebaseConfig);
-      const db = getDatabase(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
 
-      document.getElementById('reservationForm').addEventListener('submit', function (event) {
-        event.preventDefault();
+        document.getElementById('reservationForm').addEventListener('submit', function (event) {
+          event.preventDefault();
 
         console.log("reservationForm form submitted!");  // Debugging step 1
 
@@ -499,33 +432,32 @@
         let phone = document.getElementById('phone').value;
         let reservationForm = document.getElementById('reservationForm');
 
+
         if (date === "" || time === "" || phone === "") {
           alert("Please fill out all fields.");
-          return;
+        return;
         }
 
-        globalReservationNumber = 'OrderID_' + Date.now();
+        const uniqueCode = 'OrderID_' + Date.now();
 
-        set(ref(db, 'ReservationDetails/' + globalReservationNumber), {
+        set(ref(db, 'ReservationDetails/' + uniqueCode), {
           date: date,
-          time: time,
-          phone: phone,
-          OrderID: globalReservationNumber,
+        time: time,
+        phone: phone,
+        OrderID: uniqueCode,
+          // ProductImage: productImage, // You'll need to handle file uploads separately
         }).then(() => {
           var modalInstance = new bootstrap.Modal(document.getElementById('thankYouModal'));
-          modalInstance.show();
-          console.log("reservationForm form submitted!");  // Debugging step 1
-          reservationForm.reset(); // Reset the form after successful submission
+        modalInstance.show();
+        console.log("reservationForm form submitted!");  // Debugging step 1
+        reservationForm.reset(); // Reset the form after successful submission
         }).catch((error) => {
           console.log("Error during submission: ", error);
         });
       });
 
-      // Add event listener to update reservation number when the modal is about to be shown
-      document.getElementById('thankYouModal').addEventListener('show.bs.modal', updateReservationNumber);
 
     </script>
-
 
 
 
