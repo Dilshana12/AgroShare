@@ -327,6 +327,12 @@
             alert("Please fill in all required fields before submitting.");
         }
     });
+
+    if (farmName === "" || farmProvince === "" || productType === "" ||productName === "" ||productID === "" ||productImage === "" ||farmerForm === "") {
+                alert("Please fill out all fields.");
+                return;
+              }
+
 </script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/vendor/aos/aos.js"></script>
