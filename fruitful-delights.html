@@ -405,7 +405,7 @@
     </script>
 
     <!-- JavaScript to Generate Reservation Number, Handle Form Submission, and Download File -->
-    <script>
+    <script type="module">
       let globalReservationNumber = '';
 
 
@@ -464,6 +464,23 @@
         return new Blob([arrayBuffer], { type: mimeString });
       }
 
+      
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+      import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+        authDomain: "agrosharetest.firebaseapp.com",
+        databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "agrosharetest",
+        storageBucket: "agrosharetest.appspot.com",
+        messagingSenderId: "609785482458",
+        appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
       document.getElementById('reservationForm').addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -497,53 +514,6 @@
       });
 
       document.getElementById('thankYouModal').addEventListener('show.bs.modal', updateReservationNumber);
-    </script>
-
-    <!-- Ensure that this script tag is added after the Firebase SDK script tags -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-      import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
-        authDomain: "agrosharetest.firebaseapp.com",
-        databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "agrosharetest",
-        storageBucket: "agrosharetest.appspot.com",
-        messagingSenderId: "609785482458",
-        appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getDatabase(app);
-
-      document.getElementById('reservationForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        let date = document.getElementById('date').value;
-        let time = document.getElementById('time').value;
-        let phone = document.getElementById('phone').value;
-
-        if (date === "" || time === "" || phone === "") {
-          alert("Please fill out all fields.");
-          return;
-        }
-
-        const reservationNumber = 'OrderID_' + Date.now();
-
-        set(ref(db, 'ReservationDetails/' + reservationNumber), {
-          date: date,
-          time: time,
-          phone: phone,
-          OrderID: reservationNumber,
-        }).then(() => {
-          var modalInstance = new bootstrap.Modal(document.getElementById('thankYouModal'));
-          modalInstance.show();
-          document.getElementById('reservationForm').reset(); // Reset the form after successful submission
-        }).catch((error) => {
-          console.log("Error during submission: ", error);
-        });
-      });
 
       document.getElementById('thankYouModal').addEventListener('show.bs.modal', function () {
         const reservationNumber = 'OrderID_' + Date.now();
@@ -551,7 +521,13 @@
 
         // Code to generate the PNG image for download
         // ...
+
+        var modalInstance = new bootstrap.Modal(document.getElementById('thankYouModal'));
+modalInstance.show();
       });
+
+      
+
 
       // document.getElementById('thankYouModal').addEventListener('hidden.bs.modal', function () {
       //   window.location.href = 'product-view.html';
