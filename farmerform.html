@@ -299,8 +299,10 @@
         let farmProvince = document.getElementById('farmProvince').value;
         let productType = document.getElementById('productType').value;
         let productName = document.getElementById('productName').value;
+        let productdescription = document.getElementById('productdescription').value;
+        
 
-        if (farmName === "" || farmProvince === "" || productType === "" || productName === "") {
+        if (farmName === "" || farmProvince === "" || productType === "" || productName === ""|| productdescription === "") {
             alert("Please fill out all fields.");
             return;
         }
@@ -312,6 +314,7 @@
             farmProvince: farmProvince,
             productName : productName,
             productType: productType,
+            productdescription : productdescription
 
         }).then(() => {
             alert("Details submitted for review! ");
