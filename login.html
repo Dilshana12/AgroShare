@@ -8,7 +8,8 @@
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
 
@@ -17,6 +18,7 @@
       color: green;
       font-size: 4.3em;
     }
+
     .video-background {
       position: fixed;
       right: 4;
@@ -28,14 +30,17 @@
       z-index: -1;
       object-fit: cover;
     }
+
     .content {
       position: relative;
       z-index: 1;
     }
+
     .header {
       position: relative;
       z-index: 4;
     }
+
     .form-container {
       background-color: rgba(144, 238, 144, 0.5);
       border-radius: 15px;
@@ -84,18 +89,19 @@
           <form id="loginForm">
             <label for="email">Email:</label><br>
             <input type="email" id="email" required style="width: 100%;"> <br>
-          
+
             <label for="password">Password:</label> <br>
             <input type="password" id="password" required style="width: 100%;"> <br>
             <div style="text-align: left;"> <br>
               <button type="submit" id="sign_in">Sign In</button>
             </div>
           </form>
-          
+
           <div style="text-align: center;">
             Don't have an account? <a href="register.html">Register</a>
           </div>
-          <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+          <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog"
+            aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -122,47 +128,45 @@
           <script type="module">
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
             import { query, get, orderByChild, equalTo, ref, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
-          
+
             // Firebase configuration
             const firebaseConfig = {
-              apiKey: "AIzaSyB3IMqSUeDGOXWYGZ5qpwS5ltrsD1sKDzY",
-              authDomain: "family-census-details.firebaseapp.com",
-              databaseURL: "https://family-census-details-default-rtdb.asia-southeast1.firebasedatabase.app",
-              projectId: "family-census-details",
-              storageBucket: "family-census-details.appspot.com",
-              messagingSenderId: "317863141319",
-              appId: "1:317863141319:web:cb53f6bf472c6da59d03e2"
+              apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+              authDomain: "agrosharetest.firebaseapp.com",
+              projectId: "agrosharetest",
+              storageBucket: "agrosharetest.appspot.com",
+              messagingSenderId: "609785482458",
+              appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
             };
-          
             const app = initializeApp(firebaseConfig);
             const db = getDatabase(app);
-          
+
             document.getElementById('loginForm').addEventListener('submit', function (event) {
               event.preventDefault();
-          
+
               let email = document.getElementById('email').value;
               let password = document.getElementById('password').value;
-          
+
               if (email === "" || password === "") {
                 alert("Please fill out all fields.");
                 return;
               }
-          
+
               const userRef = ref(db, 'registerdetails');
               const userQuery = query(userRef, orderByChild('Email'), equalTo(email));
-          
+
               get(userQuery).then((snapshot) => {
                 if (snapshot.exists()) {
                   const userData = snapshot.val();
                   let userFound = false;
-          
+
                   for (const key in userData) {
                     if (userData[key].Password === password) {
                       userFound = true;
                       break;
                     }
                   }
-          
+
                   if (userFound) {
                     // Redirect to the appropriate page based on user type or other criteria
                     window.location.href = 'index.html'; // Change as needed
@@ -178,7 +182,7 @@
               });
             });
           </script>
-          
+
         </div>
       </div>
     </div>
@@ -187,7 +191,8 @@
   <div class="mt-5"></div>
   <footer id="footer" class="footer dark-background">
     <div class="copyright text-center">
-      <div class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
+      <div
+        class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
         <div class="d-flex flex-column align-items-center align-items-lg-start">
           <p>© 2023 AgroShare. All rights reserved.</p>
           <p class="small"><a class="text-white" href="#">Privacy Policy</a></p>

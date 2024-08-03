@@ -126,63 +126,62 @@
 
 
             const firebaseConfig = {
-              apiKey: "AIzaSyB3IMqSUeDGOXWYGZ5qpwS5ltrsD1sKDzY",
-              authDomain: "family-census-details.firebaseapp.com",
-              databaseURL: "https://family-census-details-default-rtdb.asia-southeast1.firebasedatabase.app",
-              projectId: "family-census-details",
-              storageBucket: "family-census-details.appspot.com",
-              messagingSenderId: "317863141319",
-              appId: "1:317863141319:web:cb53f6bf472c6da59d03e2"
+              apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+              authDomain: "agrosharetest.firebaseapp.com",
+              projectId: "agrosharetest",
+              storageBucket: "agrosharetest.appspot.com",
+              messagingSenderId: "609785482458",
+              appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
             };
 
             const app = initializeApp(firebaseConfig);
             const db = getDatabase(app);
 
             document.getElementById('registrationForm').addEventListener('submit', function (event) {
-    event.preventDefault();
+              event.preventDefault();
 
-    console.log("Registration form submitted!");  // Debugging step 1
+              console.log("Registration form submitted!");  // Debugging step 1
 
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
+              let email = document.getElementById('email').value;
+              let password = document.getElementById('password').value;
 
-    if (email === "" || password === "") {
-      alert("Please fill out all fields.");
-      return;
-    }
+              if (email === "" || password === "") {
+                alert("Please fill out all fields.");
+                return;
+              }
 
-    console.log("Checking if email exists...");  // Debugging step 2
+              console.log("Checking if email exists...");  // Debugging step 2
 
-    const emailRef = ref(db, 'registerdetails');
-    const emailQuery = query(emailRef, orderByChild('Email'), equalTo(email));
+              const emailRef = ref(db, 'registerdetails');
+              const emailQuery = query(emailRef, orderByChild('Email'), equalTo(email));
 
-    get(emailQuery).then((snapshot) => {
-      if (snapshot.exists()) {
-        alert("This email is already registered. Please use a different email or login.");
-        console.log("Email already exists: ", snapshot.val());
-      } else {
-        console.log("No email found, proceeding with registration...");
+              get(emailQuery).then((snapshot) => {
+                if (snapshot.exists()) {
+                  alert("This email is already registered. Please use a different email or login.");
+                  console.log("Email already exists: ", snapshot.val());
+                } else {
+                  console.log("No email found, proceeding with registration...");
 
-        const uniqueCode = 'FARMER_' + Date.now();
+                  const uniqueCode = 'FARMER_' + Date.now();
 
-        set(ref(db, 'registerdetails/' + uniqueCode), {
-          Email: email,
-          Password: password,
-          Code: uniqueCode
-        }).then(() => {
-          // alert("Registration successful! Redirecting to login page...");
-          window.location.href = 'login.html';
-        }).catch((error) => {
-          alert("Registration unsuccessful. Please try again.");
-          console.log("Error during registration: ", error);
-        });
-      }
-    }).catch((error) => {
-      // alert("Error checking email: " + error.message);  // Debugging step 3
-      console.error("Error checking email:", error);
-    });
-  });
-</script>
+                  set(ref(db, 'registerdetails/' + uniqueCode), {
+                    Email: email,
+                    Password: password,
+                    Code: uniqueCode
+                  }).then(() => {
+                    // alert("Registration successful! Redirecting to login page...");
+                    window.location.href = 'login.html';
+                  }).catch((error) => {
+                    alert("Registration unsuccessful. Please try again.");
+                    console.log("Error during registration: ", error);
+                  });
+                }
+              }).catch((error) => {
+                // alert("Error checking email: " + error.message);  // Debugging step 3
+                console.error("Error checking email:", error);
+              });
+            });
+          </script>
 
 
 
