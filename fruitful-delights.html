@@ -408,6 +408,11 @@
     <script>
       let globalReservationNumber = '';
 
+      setTimeout(() => {
+        window.location.href = 'product-view.html';
+      }, 1500); // Increase the delay as needed
+
+
       function generateReservationNumber() {
         return Math.floor(10000000000 + Math.random() * 90000000000);
       }
@@ -437,10 +442,11 @@
         downloadLink.href = url;
         downloadLink.download = 'reservation.png';
 
-        // Ensure download starts before redirect
-        setTimeout(() => {
+        // Redirect when the modal is hidden
+        const modalElement = document.getElementById('thankYouModal');
+        modalElement.addEventListener('hidden.bs.modal', function () {
           window.location.href = 'product-view.html';
-        }, 500); // Adjust timeout as needed
+        });
       }
 
       function dataURLtoBlob(dataURL) {
