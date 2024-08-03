@@ -303,7 +303,7 @@
         } else {
           console.log("No email found, proceeding with registration...");
 
-          const uniqueCode = 'FARMER_' + Date.now();
+          const uniqueCode = 'ACH_' + Date.now();
 
           set(ref(db, 'ACH_registerdetailsdetails/' + uniqueCode), {
             Email: email,
