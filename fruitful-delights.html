@@ -418,13 +418,13 @@
         const reservationNumber = globalReservationNumber;
         document.getElementById('reservationNumber').textContent = reservationNumber;
 
-        // const text = `Thank You!\nYou Just Saved a Meal\n\nYour Reservation Number: ${reservationNumber}`;
-        const lines = [
-          'Thank You!',
-          'You Just Saved a Meal',
-          '',
-          `Your Reservation Number: ${reservationNumber}`
-        ];
+        const text = `Thank You!\n \n\nYour Reservation Number: ${reservationNumber}`;
+        // const lines = [
+        //   'Thank You!',
+        //   'You Just Saved a Meal',
+        //   '',
+        //   `Your Reservation Number: ${reservationNumber}`
+        // ];
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         canvas.width = 1920;
