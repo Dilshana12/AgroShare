@@ -277,44 +277,46 @@
 
     import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
 
-const storage = getStorage(app);
+    const storage = getStorage(app);
 
-document.getElementById('farmerform').addEventListener('submit', function (event) {
-    event.preventDefault();
+    //----
 
-    // Your existing form data retrieval
-    let farmName = document.getElementById('farmName').value;
-    let farmProvince = document.getElementById('farmProvince').value;
-    let productType = document.getElementById('productType').value;
-    let productName = document.getElementById('productName').value;
-    let productImage = document.getElementById('productImage').files[0];  // Get the file from input
+    //correct
+    document.getElementById('farmerform').addEventListener('submit', function (event) {
+        event.preventDefault();
 
-    if (!farmName || !farmProvince || !productType || !productName || !productImage) {
-        alert("Please fill out all fields.");
-        return;
-    }
+        console.log("Registration form submitted!");  // Debugging step 1
 
-    const uniqueCode = 'ProductID_' + Date.now();
-    const imageRef = storageRef(storage, 'productImages/' + uniqueCode);
+        let farmName = document.getElementById('farmName').value;
+        let farmProvince = document.getElementById('farmProvince').value;
+        let productType = document.getElementById('productType').value;
+        let productName = document.getElementById('productName').value;
 
-    uploadBytes(imageRef, productImage).then((snapshot) => {
-        return getDownloadURL(imageRef);
-    }).then((downloadURL) => {
-        return set(ref(db, 'Farmer_Form/' + uniqueCode), {
-            FarmName: farmName,
-            FarmProvince: farmProvince,
-            ProductType: productType,
-            ProductName: productName,
-            ProductID: uniqueCode,
-            ProductImage: downloadURL
+        if (farmName === "" || farmProvince === "" || productType === "" || productName === "") {
+            alert("Please fill out all fields.");
+            return;
+        }
+
+        const uniqueCode = 'ProductID_' + Date.now();
+
+        set(ref(db, 'Product_details/' + uniqueCode), {
+            farmName: farmName,
+            farmProvince: farmProvince,
+            productName : productName,
+            productType: productType,
+
+        }).then(() => {
+            alert("Details submitted for review! ");
+            // window.location.href = 'loginACH.html';
+        }).catch((error) => {
+            // alert("Registration unsuccessful. Please try again.");
+            console.log("Error during registration: ", error);
         });
-    }).then(() => {
-        alert("Registration successful!");
-        document.getElementById('farmerform').reset();  // Reset the form after successful submission
+
     }).catch((error) => {
-        console.log("Error during submission: ", error);
+        // alert("Error checking email: " + error.message);  // Debugging step 3
+        console.error("Error checking email:", error);
     });
-});
 
 
 </script>
