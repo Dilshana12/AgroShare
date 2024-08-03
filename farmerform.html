@@ -129,7 +129,7 @@
             <div class="container" style="width: 100%;">
                 <div class="row justify-content-center mt-5">
                     <div class="col-md-8 form-container">
-                        <form id="farmerform" novalidate>
+                        <form id="farmerform">
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="farmName" style="font-weight: bold;">Farm Name</label>
                                 <input id="farmName" name="farmName" placeholder="Name of The Farm"
@@ -176,13 +176,13 @@
                                 <div class="invalid-feedback">Please enter the name of your product.</div>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <!-- <div class="form-outline mb-4">
                                 <label class="form-label" for="productID" style="font-weight: bold;">Product Unique
                                     ID</label>
                                 <input name="productID" class="form-control" placeholder="Enter the ID of Your Product"
                                     id="productID" required>
                                 <div class="invalid-feedback">Please enter the ID of your product.</div>
-                            </div>
+                            </div> -->
 
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="productImage" style="font-weight: bold;">Upload The
@@ -256,8 +256,11 @@
 
 <!-- firebase script -->
 
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script type="module">
-    // firebase-config.js
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
     import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
@@ -275,51 +278,44 @@
     const db = getDatabase(app);
 
     document.getElementById('farmerform').addEventListener('submit', function (event) {
-        event.preventDefault();
+    event.preventDefault();
 
-        console.log("farmerform form submitted!");
+    console.log("farmerform form submitted!");  // Debugging step 1
 
+    let farmName = document.getElementById('farmName').value;
+    let farmProvince = document.getElementById('farmProvince').value;
+    let productType = document.getElementById('productType').value;
+    let productName = document.getElementById('productName').value;
+    let productImage = document.getElementById('productImage').value;
+    let farmerForm = document.getElementById('farmerform');
 
-        // Form Elements
-        const farmName = document.getElementById('farmName');
-        const farmProvince = document.getElementById('farmProvince');
-        const productType = document.getElementById('productType');
-        const productName = document.getElementById('productName');
-        const productID = document.getElementById('productID');
-        const productImage = document.getElementById('productImage');
-        const farmerForm = document.getElementById('farmerform');
-        const submitButton = document.getElementById('Fsubmit');
+    if (!farmName || !farmProvince || !productType || !productName || !productImage) {
+        alert("Please fill out all fields.");
+        return;
+    }
 
-        if (farmName === "" || farmProvince === "" || productType === "" || productName === "" || productID === "" || productImage === "" || farmerForm === "") {
-            alert("Please fill out all fields.");
-            return;
-        }
+    const uniqueCode = 'ProductID_' + Date.now();
 
-        const uniqueCode = 'FARMER_' + Date.now();
-
-        set(ref(db, 'Farmer_registerdetails/' + uniqueCode), {
-            Email: farmName,
-            Password: farmProvince,
-            ProductID: uniqueCode,
-            ProductType: productType,
-            ProductName: productName,
-            ProductID: productID,
-            ProductImage: productImage,
-
-        }).then(() => {
-            console.log('Data successfully written to Firebase.');
-            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            successModal.show();
-            farmerForm.reset();
-        }).catch((error) => {
-            alert("Insertion unsuccessful. Please try again.");
-            console.log("Error during registration: ", error);
-        });
+    set(ref(db, 'Farmer_Form/' + uniqueCode), {
+        FarmName: farmName,
+        FarmProvince: farmProvince,
+        ProductType: productType,
+        ProductName: productName,
+        ProductID: uniqueCode,
+        // ProductImage: productImage, // You'll need to handle file uploads separately
+    }).then(() => {
+        alert("Registration successful!");
+        farmerForm.reset(); // Reset the form after successful submission
+    }).catch((error) => {
+        console.log("Error during submission: ", error);
     });
-
+});
 
 
 </script>
+
+
+
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/vendor/aos/aos.js"></script>
 <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
