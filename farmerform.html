@@ -274,64 +274,50 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-
-
-
-
-    // Form Elements
-    const farmName = document.getElementById('farmName');
-    const farmProvince = document.getElementById('farmProvince');
-    const productType = document.getElementById('productType');
-    const productName = document.getElementById('productName');
-    const productID = document.getElementById('productID');
-    const productImage = document.getElementById('productImage');
-    const farmerForm = document.getElementById('farmerform');
-    const submitButton = document.getElementById('Fsubmit');
-
-    // Add Data Function
-    function AddData() {
-        // Ensure form is valid before submission
-        if (farmerForm.checkValidity()) {
-            set(ref(db, 'FarmerDetails/' + productID.value), {
-                farmname: farmName.value,
-                farmprovince: farmProvince.value,
-                producttype: productType.value,
-                productName: productName.value,
-                productID: productID.value
-            })
-                .then(() => {
-                    console.log('Data successfully written to Firebase.');
-                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                    successModal.show();
-                    farmerForm.reset();
-                })
-                .catch((error) => {
-                    console.error('Error writing data to Firebase:', error);
-                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-                    errorModal.show();
-                });
-        } else {
-            farmerForm.classList.add('was-validated');
-        }
-    }
-
-    // Event Listener
-    submitButton.addEventListener('click', (event) => {
+    document.getElementById('farmerform').addEventListener('submit', function (event) {
         event.preventDefault();
-        if (farmerForm.checkValidity()) {
-            AddData(); // Call the AddData function if form is valid
-            form.reset(); 
-        } else {
-            // If form is invalid, show validation messages
-            farmerForm.classList.add('was-validated');
-            alert("Please fill in all required fields before submitting.");
+
+        console.log("farmerform form submitted!");
+
+
+        // Form Elements
+        const farmName = document.getElementById('farmName');
+        const farmProvince = document.getElementById('farmProvince');
+        const productType = document.getElementById('productType');
+        const productName = document.getElementById('productName');
+        const productID = document.getElementById('productID');
+        const productImage = document.getElementById('productImage');
+        const farmerForm = document.getElementById('farmerform');
+        const submitButton = document.getElementById('Fsubmit');
+
+        if (farmName === "" || farmProvince === "" || productType === "" || productName === "" || productID === "" || productImage === "" || farmerForm === "") {
+            alert("Please fill out all fields.");
+            return;
         }
+
+        const uniqueCode = 'FARMER_' + Date.now();
+
+        set(ref(db, 'Farmer_registerdetails/' + uniqueCode), {
+            Email: farmName,
+            Password: farmProvince,
+            ProductID: uniqueCode,
+            ProductType: productType,
+            ProductName: productName,
+            ProductID: productID,
+            ProductImage: productImage,
+
+        }).then(() => {
+            console.log('Data successfully written to Firebase.');
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+            farmerForm.reset();
+        }).catch((error) => {
+            alert("Insertion unsuccessful. Please try again.");
+            console.log("Error during registration: ", error);
+        });
     });
 
-    if (farmName === "" || farmProvince === "" || productType === "" ||productName === "" ||productID === "" ||productImage === "" ||farmerForm === "") {
-                alert("Please fill out all fields.");
-                return;
-              }
+
 
 </script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
