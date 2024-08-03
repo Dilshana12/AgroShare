@@ -141,7 +141,7 @@
             <div class="container" style="width: 100%;">
                 <div class="row justify-content-center mt-5">
                     <div class="col-md-8 form-container">
-                        <form id="farmform" onsubmit="handleSubmit(event)" novalidate>
+                        <form id="censusForm" onsubmit="handleSubmit(event)" novalidate>
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <label class="form-label" for="farmName" style="font-weight: bold;">Farm Name</label>
                                 <input id="farmName" name="farmName" placeholder="Name of The Farm"
@@ -150,8 +150,7 @@
                             </div>
 
                             <div data-mdb-input-init class="form-outline mb-4">
-                                <label class="form-label" for="farmProvince" style="font-weight: bold;">Farm
-                                    Province</label>
+                                <label class="form-label" for="farmProvince" style="font-weight: bold;">Farm Province</label>
                                 <select name="farmProvince" class="form-control" id="farmProvince" required>
                                     <option value="" disabled selected hidden>Select Province</option>
                                     <option value="Central">Central</option>
@@ -165,7 +164,7 @@
                                     <option value="Western">Western</option>
                                 </select>
                                 <div class="invalid-feedback">Please select the province of the farm.</div>
-                            </div>
+                            </div>                            
 
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <label class="form-label" for="productType" style="font-weight: bold;">Product
@@ -189,8 +188,7 @@
                             </div>
 
                             <div data-mdb-input-init class="form-outline mb-4">
-                                <label class="form-label" for="productID" style="font-weight: bold;">Product Unique
-                                    Id</label>
+                                <label class="form-label" for="productID" style="font-weight: bold;">Product Unique Id</label>
                                 <input name="productID" class="form-control"
                                     placeholder="Enter the ID of your Surprise Bag" id="productID" required>
                                 <div class="invalid-feedback">Please enter the ID of your Surprise Bag</div>
@@ -206,8 +204,7 @@
 
                             <div class="row justify-content-center mt-4">
                                 <div class="col-md-3 text-center">
-                                    <button type="submit" data-bs-target="#thankYouModal" class="btn btn-success"
-                                        id=Fsubmit>Submit</button>
+                                    <button type="submit" data-bs-target="#thankYouModal" class="btn btn-success" id = Fsubmit>Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -253,8 +250,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body text-center"> -->
-    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-    <!-- <h5 class="modal-title" id="thankYouModalLabel">Thank you for your submission!</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                    <!-- <h5 class="modal-title" id="thankYouModalLabel">Thank you for your submission!</h5>
                     <div class="modal-body">We will review and confirm your submission. <br> <strong style="color: red;">Within next 48 hours</strong></div>
                     <button type="button" class="btn btn-close-custom" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -279,7 +276,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- HTML for Error Modal -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -302,22 +299,21 @@
         // Import Firebase SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
-
+    
         // Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
-            authDomain: "agrosharetest.firebaseapp.com",
-            databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "agrosharetest",
-            storageBucket: "agrosharetest.appspot.com",
-            messagingSenderId: "609785482458",
-            appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
+            apiKey: "AIzaSyDNt0sZwE-anzM0XePRfTtKSSDd7sb5vxg",
+            authDomain: "authentication-e01e3.firebaseapp.com",
+            projectId: "authentication-e01e3",
+            storageBucket: "authentication-e01e3.appspot.com",
+            messagingSenderId: "1027205635402",
+            appId: "1:1027205635402:web:331c915d866dc7fb77b5b3"
         };
-
+    
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase();
-
+    
         // Get form elements
         let farmName = document.getElementById('farmName');
         let farmProvince = document.getElementById('farmProvince');
@@ -325,9 +321,9 @@
         let productName = document.getElementById('productName');
         let productID = document.getElementById('productID');
         let productImage = document.getElementById('productImage');
-        let form = document.getElementById('farmform');
+        let form = document.getElementById('censusForm');
         let Fsubmit = document.getElementById('Fsubmit');
-
+    
         // Add data to Firebase
         function AddData() {
             set(ref(db, 'FarmDetails/' + productID.value), {
@@ -337,45 +333,45 @@
                 productName: productName.value,
                 productID: productID.value
             })
-                .then(() => {
-                    // Show success modal
-                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                    successModal.show();
-                    form.reset(); // Reset the form after successful submission
-                })
-                .catch((error) => {
-                    // Show error modal
-                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-                    errorModal.show();
-                });
+            .then(() => {
+                // Show success modal
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+                form.reset(); // Reset the form after successful submission
+            })
+            .catch((error) => {
+                // Show error modal
+                const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                errorModal.show();
+            });
         }
-
+    
         // Attach event listener to the submit button
         Fsubmit.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent the default form submission
-
+            
             // Check if all required fields are filled
             if (form.checkValidity()) {
                 AddData(); // Call the AddData function if form is valid
             } else {
                 // If form is invalid, show validation messages
                 form.classList.add('was-validated');
-
+                
                 // You can also add a custom alert here if you want
                 alert("Please fill in all required fields before submitting.");
             }
         });
 
         // Handle form submission
-        // form.addEventListener('submit', (event) => {
-        //     event.preventDefault(); // Prevent the default form submission
+    // form.addEventListener('submit', (event) => {
+    //     event.preventDefault(); // Prevent the default form submission
 
-        //     if (form.checkValidity()) {
-        //         AddData(); // Call the AddData function if form is valid
-        //     } else {
-        //         form.classList.add('was-validated'); // Add validation class if form is invalid
-        //     }
-        // });
+    //     if (form.checkValidity()) {
+    //         AddData(); // Call the AddData function if form is valid
+    //     } else {
+    //         form.classList.add('was-validated'); // Add validation class if form is invalid
+    //     }
+    // });
 
     </script>
 
