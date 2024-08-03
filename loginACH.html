@@ -90,8 +90,7 @@
 <body class="products-page">
   <!-- Video Background -->
   <video autoplay muted loop class="video-background">
-    <source src="assets\Video\8540468-hd_1920_1080_30fps.mp4"
-      type="video/mp4">
+    <source src="assets\Video\8540468-hd_1920_1080_30fps.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
@@ -132,90 +131,98 @@
           </div>
 
           <!-- login elderly home -->
+
           <form id="loginFormACH" action="product-view.html">
             <label for="email">Email:</label><br>
             <input type="email" id="email" required style="width: 100%;"> <br>
 
             <label for="password">Password:</label> <br>
             <input type="password" id="password" required style="width: 100%;"> <br>
-            <div style="text-align: left;"> <br>
-              <button type="submit" id="sign_in">Sign In</button>
+            <!-- <div class="justify-content-center mt-4"> <br>
+              <button type="submit" id="sign_in"  class="btn btn-success">Sign In</button>
+            </div> -->
+            <div class="row justify-content-center mt-4">
+              <div class="col-md-3 text-center">
+                <button type="submit" class="btn btn-success" id="sign_in">Sign In</button>
+              </div>
             </div>
-          </form>
-
-          <div style="text-align: center;">
-            Don't have an account? <a href="registerACH.html">Register</a>
-          </div>
+        </div>
+        </form>
 
 
-          <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog"
-            aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="forgotPasswordModalLabel">Request a Password Reset</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="form-group">
-                      <label for="reset-email">Email:</label>
-                      <input type="email" class="form-control" id="reset-email" placeholder="Enter your email">
-                    </div>
-                    <button type="submit" class="btn btn-success btn-block">Send</button>
-                  </form>
-                </div>
+        <div style="text-align: center;">
+          Don't have an account? <a href="registerACH.html">Register</a>
+        </div>
+
+
+        <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog"
+          aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="forgotPasswordModalLabel">Request a Password Reset</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="reset-email">Email:</label>
+                    <input type="email" class="form-control" id="reset-email" placeholder="Enter your email">
+                  </div>
+                  <button type="submit" class="btn btn-success btn-block">Send</button>
+                </form>
               </div>
             </div>
           </div>
+        </div>
 
-          <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-          <script>
-            // Farmer Form Toggle
-            document.getElementById('farmerToggleRegister').addEventListener('click', function (event) {
-              event.preventDefault();
-              document.getElementById('farmerLoginForm').style.display = 'none';
-              document.getElementById('farmerRegisterForm').style.display = 'block';
-            });
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+          // Farmer Form Toggle
+          document.getElementById('farmerToggleRegister').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('farmerLoginForm').style.display = 'none';
+            document.getElementById('farmerRegisterForm').style.display = 'block';
+          });
 
-            document.getElementById('farmerToggleLogin').addEventListener('click', function (event) {
-              event.preventDefault();
-              document.getElementById('farmerLoginForm').style.display = 'block';
-              document.getElementById('farmerRegisterForm').style.display = 'none';
-            });
+          document.getElementById('farmerToggleLogin').addEventListener('click', function (event) {
+            event.preventDefault();
+            document.getElementById('farmerLoginForm').style.display = 'block';
+            document.getElementById('farmerRegisterForm').style.display = 'none';
+          });
 
-            // <!-- // Elderly Care Home Form Toggle
-            // document.getElementById('elderlyToggleRegister').addEventListener('click', function (event) {
-            //   event.preventDefault();
-            //   document.getElementById('elderlyLoginForm').style.display = 'none';
-            //   document.getElementById('elderlyRegisterForm').style.display = 'block';
-            // });
+          // <!-- // Elderly Care Home Form Toggle
+          // document.getElementById('elderlyToggleRegister').addEventListener('click', function (event) {
+          //   event.preventDefault();
+          //   document.getElementById('elderlyLoginForm').style.display = 'none';
+          //   document.getElementById('elderlyRegisterForm').style.display = 'block';
+          // });
 
-            // document.getElementById('elderlyToggleLogin').addEventListener('click', function (event) {
-            //   event.preventDefault();
-            //   document.getElementById('elderlyLoginForm').style.display = 'block';
-            //   document.getElementById('elderlyRegisterForm').style.display = 'none';
-            // }); -->
+          // document.getElementById('elderlyToggleLogin').addEventListener('click', function (event) {
+          //   event.preventDefault();
+          //   document.getElementById('elderlyLoginForm').style.display = 'block';
+          //   document.getElementById('elderlyRegisterForm').style.display = 'none';
+          // }); -->
 
-            // User Type Toggle
-            document.getElementById('toggleFarmer').addEventListener('click', function () {
-              document.getElementById('farmerForm').style.display = 'block';
-              document.getElementById('elderlyForm').style.display = 'none';
-              document.getElementById('toggleFarmer').classList.add('active');
-              document.getElementById('toggleElderly').classList.remove('active');
-            });
+          // User Type Toggle
+          document.getElementById('toggleFarmer').addEventListener('click', function () {
+            document.getElementById('farmerForm').style.display = 'block';
+            document.getElementById('elderlyForm').style.display = 'none';
+            document.getElementById('toggleFarmer').classList.add('active');
+            document.getElementById('toggleElderly').classList.remove('active');
+          });
 
-            document.getElementById('toggleElderly').addEventListener('click', function () {
-              document.getElementById('farmerForm').style.display = 'none';
-              document.getElementById('elderlyForm').style.display = 'block';
-              document.getElementById('toggleFarmer').classList.remove('active');
-              document.getElementById('toggleElderly').classList.add('active');
-            });
-          </script>
+          document.getElementById('toggleElderly').addEventListener('click', function () {
+            document.getElementById('farmerForm').style.display = 'none';
+            document.getElementById('elderlyForm').style.display = 'block';
+            document.getElementById('toggleFarmer').classList.remove('active');
+            document.getElementById('toggleElderly').classList.add('active');
+          });
+        </script>
   </main>
 
   <div class="mt-5"></div>

@@ -285,7 +285,7 @@
     document.getElementById('farmerform').addEventListener('submit', function (event) {
         event.preventDefault();
 
-        console.log("Registration form submitted!");  // Debugging step 1
+        console.log("farmerform form submitted!");  // Debugging step 1
 
         let farmName = document.getElementById('farmName').value;
         let farmProvince = document.getElementById('farmProvince').value;
@@ -310,7 +310,7 @@
             // window.location.href = 'loginACH.html';
         }).catch((error) => {
             // alert("Registration unsuccessful. Please try again.");
-            console.log("Error during registration: ", error);
+            console.log("Error during farmerform submission: ", error);
         });
 
     }).catch((error) => {
