@@ -152,7 +152,7 @@
 
               console.log("Checking if email exists...");  // Debugging step 2
 
-              const emailRef = ref(db, 'registerdetails');
+              const emailRef = ref(db, 'Farmer_registerdetails');
               const emailQuery = query(emailRef, orderByChild('Email'), equalTo(email));
 
               get(emailQuery).then((snapshot) => {
@@ -164,7 +164,7 @@
 
                   const uniqueCode = 'FARMER_' + Date.now();
 
-                  set(ref(db, 'registerdetails/' + uniqueCode), {
+                  set(ref(db, 'Farmer_registerdetails/' + uniqueCode), {
                     Email: email,
                     Password: password,
                     Code: uniqueCode

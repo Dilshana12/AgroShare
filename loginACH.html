@@ -38,7 +38,7 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 
-  
+
 
   <style>
     .icon {
@@ -119,103 +119,104 @@
       </div>
     </header>
   </div>
-    <main class="main">
-      <div class="container">
-        <div class="row justify-content-center mt-5">
-          <div class="col-md-6 form-container">
-  
-            <div class="text-center mb-4">
-              <div class="btn-group" role="group" aria-label="User Type Toggle">
-                <button type="button" class="btn btn-toggle active" id="toggleFarmer">
-                  <i class="fas fa-seedling"></i> ACH Login
-              </div>
-            </div>
-  
-        <form id="login-form" onsubmit="event.preventDefault(); window.location.href='product-view.html';">
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" required style="width: 100%;"> <br>
+  <main class="main">
+    <div class="container">
+      <div class="row justify-content-center mt-5">
+        <div class="col-md-6 form-container">
 
-    <label for="password">Password:</label> <br>
-    <input type="password" id="password" required style="width: 100%;"> <br>
-    <div style="text-align: left;"> <br>
-        <button type="submit" class="btn btn-success btn-block">Sign In</button>
-    </div>
-</form>
-
-<div style="text-align: center;">
-    Don't have an account?  <a href="registerACH.html">Register</a>
-</div>
-
-
-<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog"
-        aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="forgotPasswordModalLabel">Request a Password Reset</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="reset-email">Email:</label>
-                  <input type="email" class="form-control" id="reset-email" placeholder="Enter your email">
-                </div>
-                <button type="submit" class="btn btn-success btn-block">Send</button>
-              </form>
+          <div class="text-center mb-4">
+            <div class="btn-group" role="group" aria-label="User Type Toggle">
+              <button type="button" class="btn btn-toggle active" id="toggleFarmer">
+                <i class="fas fa-seedling"></i> ACH Login
             </div>
           </div>
-        </div>
-      </div>
-  
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-      <script>
-        // Farmer Form Toggle
-        document.getElementById('farmerToggleRegister').addEventListener('click', function (event) {
-          event.preventDefault();
-          document.getElementById('farmerLoginForm').style.display = 'none';
-          document.getElementById('farmerRegisterForm').style.display = 'block';
-        });
-  
-        document.getElementById('farmerToggleLogin').addEventListener('click', function (event) {
-          event.preventDefault();
-          document.getElementById('farmerLoginForm').style.display = 'block';
-          document.getElementById('farmerRegisterForm').style.display = 'none';
-        });
-  
-        // <!-- // Elderly Care Home Form Toggle
-        // document.getElementById('elderlyToggleRegister').addEventListener('click', function (event) {
-        //   event.preventDefault();
-        //   document.getElementById('elderlyLoginForm').style.display = 'none';
-        //   document.getElementById('elderlyRegisterForm').style.display = 'block';
-        // });
-  
-        // document.getElementById('elderlyToggleLogin').addEventListener('click', function (event) {
-        //   event.preventDefault();
-        //   document.getElementById('elderlyLoginForm').style.display = 'block';
-        //   document.getElementById('elderlyRegisterForm').style.display = 'none';
-        // }); -->
-  
-        // User Type Toggle
-        document.getElementById('toggleFarmer').addEventListener('click', function () {
-          document.getElementById('farmerForm').style.display = 'block';
-          document.getElementById('elderlyForm').style.display = 'none';
-          document.getElementById('toggleFarmer').classList.add('active');
-          document.getElementById('toggleElderly').classList.remove('active');
-        });
-  
-        document.getElementById('toggleElderly').addEventListener('click', function () {
-          document.getElementById('farmerForm').style.display = 'none';
-          document.getElementById('elderlyForm').style.display = 'block';
-          document.getElementById('toggleFarmer').classList.remove('active');
-          document.getElementById('toggleElderly').classList.add('active');
-        });
-      </script>
-    </main>
+
+          <!-- login elderly home -->
+          <form id="loginForm">
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" required style="width: 100%;"> <br>
+
+            <label for="password">Password:</label> <br>
+            <input type="password" id="password" required style="width: 100%;"> <br>
+            <div style="text-align: left;"> <br>
+              <button type="submit" id="sign_in">Sign In</button>
+            </div>
+          </form>
+
+          <div style="text-align: center;">
+            Don't have an account? <a href="registerACH.html">Register</a>
+          </div>
+
+
+          <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog"
+            aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="forgotPasswordModalLabel">Request a Password Reset</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="reset-email">Email:</label>
+                      <input type="email" class="form-control" id="reset-email" placeholder="Enter your email">
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">Send</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+          <script>
+            // Farmer Form Toggle
+            document.getElementById('farmerToggleRegister').addEventListener('click', function (event) {
+              event.preventDefault();
+              document.getElementById('farmerLoginForm').style.display = 'none';
+              document.getElementById('farmerRegisterForm').style.display = 'block';
+            });
+
+            document.getElementById('farmerToggleLogin').addEventListener('click', function (event) {
+              event.preventDefault();
+              document.getElementById('farmerLoginForm').style.display = 'block';
+              document.getElementById('farmerRegisterForm').style.display = 'none';
+            });
+
+            // <!-- // Elderly Care Home Form Toggle
+            // document.getElementById('elderlyToggleRegister').addEventListener('click', function (event) {
+            //   event.preventDefault();
+            //   document.getElementById('elderlyLoginForm').style.display = 'none';
+            //   document.getElementById('elderlyRegisterForm').style.display = 'block';
+            // });
+
+            // document.getElementById('elderlyToggleLogin').addEventListener('click', function (event) {
+            //   event.preventDefault();
+            //   document.getElementById('elderlyLoginForm').style.display = 'block';
+            //   document.getElementById('elderlyRegisterForm').style.display = 'none';
+            // }); -->
+
+            // User Type Toggle
+            document.getElementById('toggleFarmer').addEventListener('click', function () {
+              document.getElementById('farmerForm').style.display = 'block';
+              document.getElementById('elderlyForm').style.display = 'none';
+              document.getElementById('toggleFarmer').classList.add('active');
+              document.getElementById('toggleElderly').classList.remove('active');
+            });
+
+            document.getElementById('toggleElderly').addEventListener('click', function () {
+              document.getElementById('farmerForm').style.display = 'none';
+              document.getElementById('elderlyForm').style.display = 'block';
+              document.getElementById('toggleFarmer').classList.remove('active');
+              document.getElementById('toggleElderly').classList.add('active');
+            });
+          </script>
+  </main>
 
   <div class="mt-5"></div>
   <footer id="footer" class="footer dark-background">
@@ -263,8 +264,67 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-    </main>
+
+  <!-- login script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import { query, get, orderByChild, equalTo, ref, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+      authDomain: "agrosharetest.firebaseapp.com",
+      databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "agrosharetest",
+      storageBucket: "agrosharetest.appspot.com",
+      messagingSenderId: "609785482458",
+      appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      let email = document.getElementById('email').value;
+      let password = document.getElementById('password').value;
+
+      if (email === "" || password === "") {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      const userRef = ref(db, 'ACH_registerdetailsdetails');
+      const userQuery = query(userRef, orderByChild('Email'), equalTo(email));
+
+      get(userQuery).then((snapshot) => {
+        if (snapshot.exists()) {
+          const userData = snapshot.val();
+          let userFound = false;
+
+          for (const key in userData) {
+            if (userData[key].Password === password) {
+              userFound = true;
+              break;
+            }
+          }
+
+          if (userFound) {
+            // Redirect to the appropriate page based on user type or other criteria
+            window.location.href = 'farmerform.html'; // Change as needed
+          } else {
+            alert("Invalid password. Please try again.");
+          }
+        } else {
+          alert("No account found with this email. Please register.");
+        }
+      }).catch((error) => {
+        alert("Error during login: " + error.message);
+        console.error("Login error:", error);
+      });
+    });
+  </script>
+  </main>
 </body>
 
 </html>
-
