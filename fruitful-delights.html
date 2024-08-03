@@ -415,7 +415,6 @@
 
       // Function to update the reservation number and prepare the PNG image for download
       function updateReservationNumber() {
-        // Use the global reservation number
         const reservationNumber = globalReservationNumber;
         document.getElementById('reservationNumber').textContent = reservationNumber;
 
@@ -426,8 +425,8 @@
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
 
-        // Set canvas size
-        canvas.width = 1080;
+        // Set canvas size for better quality
+        canvas.width = 1920;
         canvas.height = 1080;
 
         // Fill canvas background with white color
@@ -435,9 +434,10 @@
         context.fillRect(0, 0, canvas.width, canvas.height);
 
         // Set font properties
-        context.font = '30px Arial';
-        context.fillStyle = 'black';
+        context.font = '40px Arial'; // Increase font size
+        context.fillStyle = 'black'; // Set font color
         context.textAlign = 'center';
+        context.textBaseline = 'middle'; // Center text vertically
 
         // Draw text on canvas
         context.fillText(text, canvas.width / 2, canvas.height / 2);
@@ -454,6 +454,7 @@
         downloadLink.href = url;
         downloadLink.download = 'reservation.png'; // Name of the downloaded file
       }
+
 
       // Helper function to convert dataURL to Blob
       function dataURLtoBlob(dataURL) {
@@ -515,6 +516,7 @@
           var modalInstance = new bootstrap.Modal(document.getElementById('thankYouModal'));
           modalInstance.show();
           console.log("reservationForm form submitted!");  // Debugging step 1
+          window.location.href = 'product-view.html';
           reservationForm.reset(); // Reset the form after successful submission
         }).catch((error) => {
           console.log("Error during submission: ", error);
