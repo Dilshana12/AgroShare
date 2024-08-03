@@ -408,55 +408,41 @@
     <script>
       let globalReservationNumber = '';
 
-      // Function to generate a random 11-digit number
       function generateReservationNumber() {
         return Math.floor(10000000000 + Math.random() * 90000000000);
       }
 
-      // Function to update the reservation number and prepare the PNG image for download
       function updateReservationNumber() {
         const reservationNumber = globalReservationNumber;
         document.getElementById('reservationNumber').textContent = reservationNumber;
 
-        // Create file content as text
         const text = `Thank You!\nYou Just Saved a Meal\n\nYour Reservation Number: ${reservationNumber}`;
-
-        // Create a canvas element
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
-
-        // Set canvas size for better quality
         canvas.width = 1920;
         canvas.height = 1080;
-
-        // Fill canvas background with white color
         context.fillStyle = 'white';
         context.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Set font properties
-        context.font = '40px Arial'; // Increase font size
-        context.fillStyle = 'black'; // Set font color
+        context.font = '40px Arial';
+        context.fillStyle = 'black';
         context.textAlign = 'center';
-        context.textBaseline = 'middle'; // Center text vertically
-
-        // Draw text on canvas
+        context.textBaseline = 'middle';
         context.fillText(text, canvas.width / 2, canvas.height / 2);
 
-        // Convert canvas to PNG
         const imageUrl = canvas.toDataURL('image/png');
-
-        // Create a Blob from the image URL
         const blob = dataURLtoBlob(imageUrl);
         const url = URL.createObjectURL(blob);
 
-        // Update download link
         const downloadLink = document.getElementById('downloadLink');
         downloadLink.href = url;
-        downloadLink.download = 'reservation.png'; // Name of the downloaded file
+        downloadLink.download = 'reservation.png';
+
+        // Ensure download starts before redirect
+        setTimeout(() => {
+          window.location.href = 'product-view.html';
+        }, 500); // Adjust timeout as needed
       }
 
-
-      // Helper function to convert dataURL to Blob
       function dataURLtoBlob(dataURL) {
         const [header, data] = dataURL.split(',');
         const mimeString = header.split(':')[1].split(';')[0];
@@ -469,7 +455,41 @@
         return new Blob([arrayBuffer], { type: mimeString });
       }
 
+      document.getElementById('reservationForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        console.log("reservationForm form submitted!");
+
+        let date = document.getElementById('date').value;
+        let time = document.getElementById('time').value;
+        let phone = document.getElementById('phone').value;
+        let reservationForm = document.getElementById('reservationForm');
+
+        if (date === "" || time === "" || phone === "") {
+          alert("Please fill out all fields.");
+          return;
+        }
+
+        globalReservationNumber = 'OrderID_' + Date.now();
+
+        set(ref(db, 'ReservationDetails/' + globalReservationNumber), {
+          date: date,
+          time: time,
+          phone: phone,
+          OrderID: globalReservationNumber,
+        }).then(() => {
+          var modalInstance = new bootstrap.Modal(document.getElementById('thankYouModal'));
+          modalInstance.show();
+          console.log("reservationForm form submitted!");
+          reservationForm.reset(); // Reset the form after successful submission
+        }).catch((error) => {
+          console.log("Error during submission: ", error);
+        });
+      });
+
+      document.getElementById('thankYouModal').addEventListener('show.bs.modal', updateReservationNumber);
     </script>
+
     <script type="module">
       // Handle form submission
 
