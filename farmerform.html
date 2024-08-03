@@ -141,7 +141,7 @@
             <div class="container" style="width: 100%;">
                 <div class="row justify-content-center mt-5">
                     <div class="col-md-8 form-container">
-                        <form id="censusForm" onsubmit="handleSubmit(event)" novalidate>
+                        <form id="farmform" onsubmit="handleSubmit(event)" novalidate>
                             <div data-mdb-input-init class="form-outline mb-4">
                                 <label class="form-label" for="farmName" style="font-weight: bold;">Farm Name</label>
                                 <input id="farmName" name="farmName" placeholder="Name of The Farm"
@@ -325,7 +325,7 @@
         let productName = document.getElementById('productName');
         let productID = document.getElementById('productID');
         let productImage = document.getElementById('productImage');
-        // let form = document.getElementById('censusForm');
+        let form = document.getElementById('farmform');
         let Fsubmit = document.getElementById('Fsubmit');
 
         // Add data to Firebase
