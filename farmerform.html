@@ -100,9 +100,7 @@
 <body class="products-page">
     <!-- Video Background -->
     <video autoplay muted loop class="video-background">
-        <source
-            src="C:\Users\Najma\Documents\ANC\Research Final\Project-Agro\assets\Video\8540468-hd_1920_1080_30fps.mp4"
-            type="video/mp4">
+        <source src="assets\Video\8540468-hd_1920_1080_30fps.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
@@ -277,39 +275,44 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    document.getElementById('farmerform').addEventListener('submit', function (event) {
-    event.preventDefault();
+    document.addEventListener('DOMContentLoaded', (event) => {
+        document.getElementById('farmerform').addEventListener('submit', function (event) {
 
-    console.log("farmerform form submitted!");  // Debugging step 1
 
-    let farmName = document.getElementById('farmName').value;
-    let farmProvince = document.getElementById('farmProvince').value;
-    let productType = document.getElementById('productType').value;
-    let productName = document.getElementById('productName').value;
-    let productImage = document.getElementById('productImage').value;
-    let farmerForm = document.getElementById('farmerform');
+            // document.getElementById('farmerform').addEventListener('submit', function (event) {
+            // event.preventDefault();
 
-    if (!farmName || !farmProvince || !productType || !productName || !productImage) {
-        alert("Please fill out all fields.");
-        return;
-    }
+            console.log("farmerform form submitted!");  // Debugging step 1
 
-    const uniqueCode = 'ProductID_' + Date.now();
+            let farmName = document.getElementById('farmName').value;
+            let farmProvince = document.getElementById('farmProvince').value;
+            let productType = document.getElementById('productType').value;
+            let productName = document.getElementById('productName').value;
+            let productImage = document.getElementById('productImage').value;
+            let farmerForm = document.getElementById('farmerform');
 
-    set(ref(db, 'Farmer_Form/' + uniqueCode), {
-        FarmName: farmName,
-        FarmProvince: farmProvince,
-        ProductType: productType,
-        ProductName: productName,
-        ProductID: uniqueCode,
-        // ProductImage: productImage, // You'll need to handle file uploads separately
-    }).then(() => {
-        alert("Registration successful!");
-        farmerForm.reset(); // Reset the form after successful submission
-    }).catch((error) => {
-        console.log("Error during submission: ", error);
+            if (!farmName || !farmProvince || !productType || !productName || !productImage) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            const uniqueCode = 'ProductID_' + Date.now();
+
+            set(ref(db, 'Farmer_Form/' + uniqueCode), {
+                FarmName: farmName,
+                FarmProvince: farmProvince,
+                ProductType: productType,
+                ProductName: productName,
+                ProductID: uniqueCode,
+                // ProductImage: productImage, // You'll need to handle file uploads separately
+            }).then(() => {
+                alert("Registration successful!");
+                farmerForm.reset(); // Reset the form after successful submission
+            }).catch((error) => {
+                console.log("Error during submission: ", error);
+            });
+        });
     });
-});
 
 
 </script>
