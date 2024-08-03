@@ -261,11 +261,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-    import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import { ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
 
     const firebaseConfig = {
-        apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+        apiKey: "AIzaSyCO8BRz...",
         authDomain: "agrosharetest.firebaseapp.com",
         databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
         projectId: "agrosharetest",
@@ -274,44 +275,50 @@
         appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    document.getElementById('farmerform').addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    console.log("farmerform form submitted!");  // Debugging step 1
-
-    let farmName = document.getElementById('farmName').value;
-    let farmProvince = document.getElementById('farmProvince').value;
-    let productType = document.getElementById('productType').value;
-    let productName = document.getElementById('productName').value;
-    let productImage = document.getElementById('productImage').value;
-    let farmerForm = document.getElementById('farmerform');
-
-    if (!farmName || !farmProvince || !productType || !productName || !productImage) {
-        alert("Please fill out all fields.");
-        return;
+    if (!getApps().length) {
+        initializeApp(firebaseConfig);
     }
 
-    const uniqueCode = 'ProductID_' + Date.now();
+    const db = getDatabase();
+    const storage = getStorage();
 
-    set(ref(db, 'Farmer_Form/' + uniqueCode), {
-        FarmName: farmName,
-        FarmProvince: farmProvince,
-        ProductType: productType,
-        ProductName: productName,
-        ProductID: uniqueCode,
-        // ProductImage: productImage, // You'll need to handle file uploads separately
-    }).then(() => {
-        alert("Registration successful!");
-        farmerForm.reset(); // Reset the form after successful submission
-    }).catch((error) => {
-        console.log("Error during submission: ", error);
+    document.getElementById('farmerform').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const farmName = document.getElementById('farmName').value;
+        const farmProvince = document.getElementById('farmProvince').value;
+        const productType = document.getElementById('productType').value;
+        const productName = document.getElementById('productName').value;
+        const file = document.getElementById('productImage').files[0];
+        const farmerForm = document.getElementById('farmerform');
+
+        if (!farmName || !farmProvince || !productType || !productName || !file) {
+            alert("Please fill out all fields.");
+            return;
+        }
+
+        const uniqueCode = 'ProductID_' + Date.now();
+        const storageReference = storageRef(storage, 'Farmer_Images/' + uniqueCode);
+
+        uploadBytes(storageReference, file).then((snapshot) => {
+            // Store the file reference URL in your Realtime Database
+            set(ref(db, 'Farmer_Form/' + uniqueCode), {
+                FarmName: farmName,
+                FarmProvince: farmProvince,
+                ProductType: productType,
+                ProductName: productName,
+                ProductID: uniqueCode,
+                // ProductImageURL: snapshot.metadata.fullPath, // Save the outside of Firebase Storage URL if needed
+            }).then(() => {
+                alert("Registration successful!");
+                farmerForm.reset();
+            }).catch((error) => {
+                console.log("Error during submission: ", error);
+            });
+        }).catch((error) => {
+            console.error("Error uploading file: ", error);
+        });
     });
-});
-
-
 </script>
 
 
