@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Farmer Product Form | AgroShare</title>
+    <title> Farmer Product Form | AgroShare </title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -27,7 +27,19 @@
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Signup</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Updated Font Awesome -->
+    <link href="assets/css/main.css" rel="stylesheet"> <!-- Link to your custom CSS file -->
+
+    <!-- Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
+
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .icon {
@@ -129,15 +141,15 @@
             <div class="container" style="width: 100%;">
                 <div class="row justify-content-center mt-5">
                     <div class="col-md-8 form-container">
-                        <form id="farmerform" novalidate>
-                            <div class="form-outline mb-4">
+                        <form id="farmerform" onsubmit="handleSubmit(event)" novalidate>
+                            <div data-mdb-input-init class="form-outline mb-4">
                                 <label class="form-label" for="farmName" style="font-weight: bold;">Farm Name</label>
                                 <input id="farmName" name="farmName" placeholder="Name of The Farm"
                                     class="form-control mb-2" required>
                                 <div class="invalid-feedback">Please enter the name of the farm.</div>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div data-mdb-input-init class="form-outline mb-4">
                                 <label class="form-label" for="farmProvince" style="font-weight: bold;">Farm
                                     Province</label>
                                 <select name="farmProvince" class="form-control" id="farmProvince" required>
@@ -155,7 +167,7 @@
                                 <div class="invalid-feedback">Please select the province of the farm.</div>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div data-mdb-input-init class="form-outline mb-4">
                                 <label class="form-label" for="productType" style="font-weight: bold;">Product
                                     Type</label>
                                 <select class="form-control" name="productType" id="productType" required>
@@ -168,23 +180,23 @@
                                 <div class="invalid-feedback">Please select a product type.</div>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div data-mdb-input-init class="form-outline mb-4">
                                 <label class="form-label" for="productName" style="font-weight: bold;">Product
                                     Name</label>
                                 <input name="productName" class="form-control"
-                                    placeholder="Enter the Name of Your Product" id="productName" required>
-                                <div class="invalid-feedback">Please enter the name of your product.</div>
+                                    placeholder="Enter the Name of Your Surprise Bag" id="productName" required>
+                                <div class="invalid-feedback">Please enter the name of your surprise bag.</div>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div data-mdb-input-init class="form-outline mb-4">
                                 <label class="form-label" for="productID" style="font-weight: bold;">Product Unique
-                                    ID</label>
-                                <input name="productID" class="form-control" placeholder="Enter the ID of Your Product"
-                                    id="productID" required>
-                                <div class="invalid-feedback">Please enter the ID of your product.</div>
+                                    Id</label>
+                                <input name="productID" class="form-control"
+                                    placeholder="Enter the ID of your Surprise Bag" id="productID" required>
+                                <div class="invalid-feedback">Please enter the ID of your Surprise Bag</div>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div data-mdb-input-init class="form-outline mb-4">
                                 <label class="form-label" for="productImage" style="font-weight: bold;">Upload The
                                     Product Image</label>
                                 <input type="file" name="productImage" class="form-control" id="productImage"
@@ -194,105 +206,129 @@
 
                             <div class="row justify-content-center mt-4">
                                 <div class="col-md-3 text-center">
-                                    <button type="submit" class="btn btn-success" id="Fsubmit">Submit</button>
+                                    <button type="submit" data-bs-target="#thankYouModal" class="btn btn-success"
+                                        id=Fsubmit>Submit</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </main>
+    </div>
+    </main>
 
-        <footer id="footer" class="footer dark-background">
-            <div class="copyright text-center">
-                <div
-                    class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
-                    <div class="d-flex flex-column align-items-center align-items-lg-start">
-                        <div>© Copyright <strong><span>MyWebsite</span></strong>. All Rights Reserved</div>
-                        <div class="credits">Designed by <a href="https://bootstrapmade.com/">Najma Dhasthakeer</a>
-                        </div>
-                    </div>
+    <footer id="footer" class="footer dark-background">
+        <div class="copyright text-center">
+            <div
+                class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
+                <div class="d-flex flex-column align-items-center align-items-lg-start">
+                    <div>© Copyright <strong><span>MyWebsite</span></strong>. All Rights Reserved</div>
+                    <div class="credits">Designed by <a href="https://bootstrapmade.com/">Najma Dhasthakeer</a></div>
+                </div>
 
-                    <div class="social-links order-first order-lg-last mb-3 mb-lg-0">
-                        <a href=""><i class="bi bi-twitter-x"></i></a>
-                        <a href=""><i class="bi bi-facebook"></i></a>
-                        <a href=""><i class="bi bi-youtube"></i></a>
-                        <a href=""><i class="bi bi-instagram"></i></a>
-                    </div>
+                <div class="social-links order-first order-lg-last mb-3 mb-lg-0">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
 
-    <!-- Modals -->
-    <!-- Success Modal -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- Modal Structure -->
+    <!-- <div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body text-center"> -->
+    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+    <!-- <h5 class="modal-title" id="thankYouModalLabel">Thank you for your submission!</h5>
+                    <div class="modal-body">We will review and confirm your submission. <br> <strong style="color: red;">Within next 48 hours</strong></div>
+                    <button type="button" class="btn btn-close-custom" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- HTML for Success Modal -->
     <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-body text-center">
-                    <i class="fa fa-check-circle" style="color: green; font-size: 5em;"></i>
-                    <h4 class="mt-3">Success!</h4>
-                    <p>Your data has been successfully submitted.</p>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your data has been saved successfully.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Error Modal -->
+    <!-- HTML for Error Modal -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-body text-center">
-                    <i class="fa fa-times-circle" style="color: red; font-size: 5em;"></i>
-                    <h4 class="mt-3">Error!</h4>
-                    <p>There was an error submitting your data. Please try again.</p>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    There was an error saving your data. Please try again.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-</body>
 
-<!-- firebase script -->
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+        import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
-<script type="module">
-    // firebase-config.js
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-    import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+            authDomain: "agrosharetest.firebaseapp.com",
+            databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "agrosharetest",
+            storageBucket: "agrosharetest.appspot.com",
+            messagingSenderId: "609785482458",
+            appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
+        };
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
-        authDomain: "agrosharetest.firebaseapp.com",
-        databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "agrosharetest",
-        storageBucket: "agrosharetest.appspot.com",
-        messagingSenderId: "609785482458",
-        appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
-    };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+        // Get form elements
+        let farmName = document.getElementById('farmName');
+        let farmProvince = document.getElementById('farmProvince');
+        let productType = document.getElementById('productType');
+        let productName = document.getElementById('productName');
+        let productID = document.getElementById('productID');
+        let productImage = document.getElementById('productImage');
+        let form = document.getElementById('farmerform');
+        let Fsubmit = document.getElementById('Fsubmit');
 
-
-
-
-
-    // Form Elements
-    const farmName = document.getElementById('farmName');
-    const farmProvince = document.getElementById('farmProvince');
-    const productType = document.getElementById('productType');
-    const productName = document.getElementById('productName');
-    const productID = document.getElementById('productID');
-    const productImage = document.getElementById('productImage');
-    const farmerForm = document.getElementById('farmerform');
-    const submitButton = document.getElementById('Fsubmit');
-
-    // Add Data Function
-    function AddData() {
-        // Ensure form is valid before submission
-        if (farmerForm.checkValidity()) {
-            set(ref(db, 'FarmerDetails/' + productID.value), {
+        // Add data to Firebase
+        function AddData() {
+            set(ref(db, 'FarmDetails/' + productID.value), {
                 farmname: farmName.value,
                 farmprovince: farmProvince.value,
                 producttype: productType.value,
@@ -300,38 +336,73 @@
                 productID: productID.value
             })
                 .then(() => {
-                    console.log('Data successfully written to Firebase.');
+                    // Show success modal
                     const successModal = new bootstrap.Modal(document.getElementById('successModal'));
                     successModal.show();
-                    farmerForm.reset();
+                    form.reset(); // Reset the form after successful submission
                 })
                 .catch((error) => {
-                    console.error('Error writing data to Firebase:', error);
+                    // Show error modal
                     const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
                     errorModal.show();
                 });
-        } else {
-            farmerForm.classList.add('was-validated');
         }
-    }
 
-    // Event Listener
-    submitButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (farmerForm.checkValidity()) {
-            AddData(); // Call the AddData function if form is valid
-            form.reset(); 
-        } else {
-            // If form is invalid, show validation messages
-            farmerForm.classList.add('was-validated');
-            alert("Please fill in all required fields before submitting.");
+        // Attach event listener to the submit button
+        Fsubmit.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Check if all required fields are filled
+            if (form.checkValidity()) {
+                AddData(); // Call the AddData function if form is valid
+            } else {
+                // If form is invalid, show validation messages
+                form.classList.add('was-validated');
+
+                // You can also add a custom alert here if you want
+                alert("Please fill in all required fields before submitting.");
+            }
+        });
+
+        // Handle form submission
+        // form.addEventListener('submit', (event) => {
+        //     event.preventDefault(); // Prevent the default form submission
+
+        //     if (form.checkValidity()) {
+        //         AddData(); // Call the AddData function if form is valid
+        //     } else {
+        //         form.classList.add('was-validated'); // Add validation class if form is invalid
+        //     }
+        // });
+
+    </script>
+
+
+    <!-- JavaScript to Handle Form Submission -->
+    <!-- <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+
+            if (form.checkValidity()) {
+                const modalInstance = new bootstrap.Modal(document.getElementById('thankYouModal'));
+                modalInstance.show();
+                form.reset();
+            } else {
+                form.classList.add('was-validated');
+            }
         }
-    });
-</script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/aos/aos.js"></script>
-<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-<script src="assets/js/main.js"></script>
+
+        // Close the modal when clicking outside of it
+        window.onclick = function (event) {
+            const modal = document.getElementById('thankYouModal');
+            if (event.target === modal) {
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                modalInstance.hide();
+            }
+        };
+    </script> -->
+
+</body>
 
 </html>
