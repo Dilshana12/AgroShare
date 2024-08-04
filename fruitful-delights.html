@@ -117,9 +117,11 @@
     </div>
   </div><!-- End Page Title -->
 
-
+ 
+  <button class="btn-reserve" onclick="goBack()">Go Back</button>
   <!-- Single Product Start -->
   <form id="reservationForm">
+    
     <div class="container-fluid py-5 mt-5">
       <div class="container py-5">
         <div class="row g-4 mb-5">
@@ -151,6 +153,11 @@
             </div> -->
             <div id="productSection" class="row g-4">
               <!-- Product details will be dynamically inserted here -->
+             
+            </div>
+
+            <div>
+              
             </div>
             
           </div>
@@ -518,7 +525,7 @@
     
       // Function to load product details from Firebase
       function loadProductDetails() {
-  const productID = 'ProductID_1722783516258'; // Replace with dynamic ID if needed
+  const productID = 'ProductID_1722787036968'; // Replace with dynamic ID if needed
   const productRef = ref(db, 'Product_details/' + productID);
 
   get(productRef).then((snapshot) => {
@@ -565,7 +572,19 @@ loadProductDetails();
     
 
 
+   
 
+    <script>
+    function goBack() {
+    if (document.referrer) {
+        window.history.back();
+    } else {
+        // Fallback to redirect to a default page
+        window.location.href = 'product-view.html';
+    }
+}
+
+    </script>
 
 
 </body>
