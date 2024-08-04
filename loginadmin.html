@@ -12,6 +12,7 @@
     rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
+
   <style>
     .icon {
       color: green;
@@ -79,26 +80,27 @@
           <div class="text-center mb-4">
             <div class="btn-group" role="group" aria-label="User Type Toggle">
               <button type="button" class="btn btn-toggle active" id="toggleFarmer">
-                <i class="fas fa-seedling"></i> Farmer Register
+                <i class="fas fa-seedling"></i> Admin Login
               </button>
             </div>
           </div>
-          <form id="registrationForm">
+
+          <!-- login form start -->
+          <form id="loginForm">
             <label for="email">Email:</label><br>
-            <input type="email" id="email" style="width: 100%;" required> <br>
+            <input type="email" id="email" required style="width: 100%;"> <br>
+
             <label for="password">Password:</label> <br>
-            <input type="password" id="password" style="width: 100%;" required> <br>
-            <!-- <div style="text-align: left;"> <br>
-              <button type="submit" id="register">Register</button>
-            </div> -->
+            <input type="password" id="password" required style="width: 100%;"> <br>
             <div class="row justify-content-center mt-4">
               <div class="col-md-3 text-center">
-                <button type="submit" class="btn btn-success" id="register">Register</button>
+                <button type="submit" class="btn btn-success" id="sign_in">Sign In</button>
               </div>
             </div>
           </form>
+
           <div style="text-align: center;">
-            Already Registered? <a href="login.html">Login Now</a>
+            Don't have an account? <a href="register.html">Register</a>
           </div>
           <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog"
             aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
@@ -122,13 +124,15 @@
               </div>
             </div>
           </div>
+
           <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
           <script type="module">
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-            import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+            import { query, get, orderByChild, equalTo, ref, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
+            // Firebase configuration
             const firebaseConfig = {
               apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
               authDomain: "agrosharetest.firebaseapp.com",
@@ -142,55 +146,48 @@
             const app = initializeApp(firebaseConfig);
             const db = getDatabase(app);
 
-            document.getElementById('registrationForm').addEventListener('submit', function (event) {
+            document.getElementById('loginForm').addEventListener('submit', async function (event) {
               event.preventDefault();
 
-              console.log("Registration form submitted!");  // Debugging step 1
-
-              let email = document.getElementById('email').value;
-              let password = document.getElementById('password').value;
+              const email = document.getElementById('email').value;
+              const password = document.getElementById('password').value;
 
               if (email === "" || password === "") {
                 alert("Please fill out all fields.");
                 return;
               }
 
-              console.log("Checking if email exists...");  // Debugging step 2
+              try {
+                const userRef = ref(db, 'registerdetails');
+                const userQuery = query(userRef, orderByChild('email'), equalTo(email));
+                const snapshot = await get(userQuery);
 
-              const emailRef = ref(db, 'Farmer_registerdetails');
-              const emailQuery = query(emailRef, orderByChild('Email'), equalTo(email));
-
-              get(emailQuery).then((snapshot) => {
                 if (snapshot.exists()) {
-                  alert("This email is already registered. Please use a different email or login.");
-                  console.log("Email already exists: ", snapshot.val());
+                  const userData = snapshot.val();
+                  let userFound = false;
+
+                  for (const key in userData) {
+                    if (userData[key].password === password && userData[key].role === 'admin') {
+                      userFound = true;
+                      break;
+                    }
+                  }
+
+                  if (userFound) {
+                    // Redirect to the appropriate page based on user type or other criteria
+                    window.location.href = 'admin_confirmation.html'; // Change as needed
+                  } else {
+                    alert("You do not have the necessary permissions to access this page.");
+                  }
                 } else {
-                  console.log("No email found, proceeding with registration...");
-
-                  const uniqueCode = 'FARMER_' + Date.now();
-
-                  set(ref(db, 'Farmer_registerdetails/' + uniqueCode), {
-                    Email: email,
-                    Password: password,
-                    Code: uniqueCode
-                  }).then(() => {
-                    // alert("Registration successful! Redirecting to login page...");
-                    window.location.href = 'login.html';
-                  }).catch((error) => {
-                    alert("Registration unsuccessful. Please try again.");
-                    console.log("Error during registration: ", error);
-                  });
+                  alert("No account found with this email. Please register.");
                 }
-              }).catch((error) => {
-                // alert("Error checking email: " + error.message);  // Debugging step 3
-                console.error("Error checking email:", error);
-              });
+              } catch (error) {
+                alert("Error during login: " + error.message);
+                console.error("Login error:", error);
+              }
             });
           </script>
-
-
-
-
         </div>
       </div>
     </div>
@@ -215,14 +212,6 @@
       </div>
     </div>
   </footer>
-  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
-  <div id="preloader"></div>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/js/main.js"></script>
 </body>
 
 </html>

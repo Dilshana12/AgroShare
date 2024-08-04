@@ -47,6 +47,27 @@
   </style>
 </head>
 
+<div class="content">
+  <header id="header" class="header d-flex align-items-center position-relative">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="AgriCulture">
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html"><i class="fas fa-home icon"></i></a></li>
+          <li><a href="contact.html"><i class="fas fa-address-book icon"></i></a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+</div>
+
+<main class="main">
+  <div></div>
+</main>
+
 <body class="products-page">
   <div class="container mt-5">
     <h1 class="text-center">Confirm Farmer Product Details</h1>
@@ -58,6 +79,7 @@
           <th>Product Type</th>
           <th>Product Name</th>
           <th>Description</th>
+          <th>Items Included</th>
           <th>Image</th>
           <th>Actions</th>
         </tr>
@@ -73,13 +95,13 @@
     import { getDatabase, ref, onValue, remove, set } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
-      authDomain: "agrosharetest.firebaseapp.com",
-      databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "agrosharetest",
-      storageBucket: "agrosharetest.appspot.com",
-      messagingSenderId: "609785482458",
-      appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
+        apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+        authDomain: "agrosharetest.firebaseapp.com",
+        databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "agrosharetest",
+        storageBucket: "agrosharetest.appspot.com",
+        messagingSenderId: "609785482458",
+        appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -89,83 +111,66 @@
     const productsRef = ref(db, 'Product_details_to_be_confirm/');
 
     onValue(productsRef, (snapshot) => {
-      productTableBody.innerHTML = '';
-      snapshot.forEach((childSnapshot) => {
-        const productData = childSnapshot.val();
-        const productKey = childSnapshot.key;
+        productTableBody.innerHTML = '';
+        snapshot.forEach((childSnapshot) => {
+            const productData = childSnapshot.val();
+            const productKey = childSnapshot.key;
 
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${productData.farmName}</td>
-          <td>${productData.farmProvince}</td>
-          <td>${productData.productType}</td>
-          <td>${productData.productName}</td>
-          <td>${productData.productdescription}</td>
-          <td><img src="${productData.productImageUrl}" alt="Product Image" style="width:100px;height:auto;"></td>
-          <td>
-            <button class="btn btn-success" onclick='acceptProduct("${productKey}", ${JSON.stringify(productData).replace(/'/g, "\\'")})'>Accept</button>
-            <button class="btn btn-danger" onclick='rejectProduct("${productKey}")'>Reject</button>
-          </td>
-        `;
-        productTableBody.appendChild(row);
-      });
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${productData.farmName}</td>
+                <td>${productData.farmProvince}</td>
+                <td>${productData.productType}</td>
+                <td>${productData.productName}</td>
+                <td>${productData.productdescription}</td>
+                <td>${productData.itemsIncluded}</td> <!-- Display itemsIncluded -->
+                <td><img src="${productData.productImageUrl}" alt="Product Image" style="width:100px;height:auto;"></td>
+                <td>
+                    <button class="btn btn-success" onclick='acceptProduct("${productKey}", ${JSON.stringify(productData).replace(/'/g, "\\'")})'>Accept</button>
+                    <button class="btn btn-danger" onclick='rejectProduct("${productKey}")'>Reject</button>
+                </td>
+            `;
+            productTableBody.appendChild(row);
+        });
     });
 
     window.acceptProduct = async function (productKey, productData) {
-      console.log('Accept button clicked');
-      console.log('Product Key:', productKey);
-      console.log('Product Data:', productData);
+        console.log('Accept button clicked');
+        console.log('Product Key:', productKey);
+        console.log('Product Data:', productData);
 
-      try {
-        // Move product data to confirmed products
-        await set(ref(db, 'Product_details/' + productKey), productData);
-        console.log('Data written to Product_details successfully');
+        try {
+            // Move product data to confirmed products
+            await set(ref(db, 'Product_details/' + productKey), productData);
+            console.log('Data written to Product_details successfully');
 
-        // Remove from unconfirmed products
-        await remove(ref(db, 'Product_details_to_be_confirm/' + productKey));
-        console.log('Data removed from Product_details_to_be_confirm successfully');
+            // Remove from unconfirmed products
+            await remove(ref(db, 'Product_details_to_be_confirm/' + productKey));
+            console.log('Data removed from Product_details_to_be_confirm successfully');
 
-        alert("Product Accepted and Moved to Confirmed Products");
-      } catch (error) {
-        console.error('Error accepting product:', error);
-        alert('An error occurred while accepting the product.');
-      }
+            alert("Product Accepted and Moved to Confirmed Products");
+        } catch (error) {
+            console.error('Error accepting product:', error);
+            alert('An error occurred while accepting the product.');
+        }
     };
 
     window.rejectProduct = async function (productKey) {
-      try {
-        // Remove the product data from unconfirmed products
-        await remove(ref(db, 'Product_details_to_be_confirm/' + productKey));
-        alert("Product Rejected and Removed from List");
-      } catch (error) {
-        console.error('Error rejecting product:', error);
-        alert('An error occurred while rejecting the product.');
-      }
+        try {
+            // Remove the product data from unconfirmed products
+            await remove(ref(db, 'Product_details_to_be_confirm/' + productKey));
+            alert("Product Rejected and Removed from List");
+        } catch (error) {
+            console.error('Error rejecting product:', error);
+            alert('An error occurred while rejecting the product.');
+        }
     };
-  </script>
+</script>
+
 
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <div class="content">
-    <header id="header" class="header d-flex align-items-center position-relative">
-      <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center">
-          <img src="assets/img/logo.png" alt="AgriCulture">
-        </a>
-        <nav id="navmenu" class="navmenu">
-          <ul>
-            <li><a href="index.html"><i class="fas fa-home icon"></i></a></li>
-            <li><a href="contact.html"><i class="fas fa-address-book icon"></i></a></li>
-          </ul>
-          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
-      </div>
-    </header>
-  </div>
-
-  <main class="main">
-    <div></div>
-  </main>
+  
 
   <div class="mt-5"></div>
   <footer id="footer" class="footer dark-background">

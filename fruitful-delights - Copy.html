@@ -124,7 +124,7 @@
       <div class="container py-5">
         <div class="row g-4 mb-5">
           <div class="col-lg-8 col-xl-9">
-            <div class="row g-4">
+            <!-- <div class="row g-4">
               <div class="col-lg-6">
                 <div class="border rounded">
                   <a href="#">
@@ -148,7 +148,11 @@
 
                 </div>
               </div>
+            </div> -->
+            <div id="productSection" class="row g-4">
+              <!-- Product details will be dynamically inserted here -->
             </div>
+            
           </div>
         </div>
         <div class="row">
@@ -405,26 +409,21 @@
     </script>
 
     <!-- JavaScript to Generate Reservation Number, Handle Form Submission, and Download File -->
-    <script>
+    <script type="module">
+      // Declare global variables
       let globalReservationNumber = '';
-
-
-
+    
+      // Function to generate a reservation number
       function generateReservationNumber() {
         return Math.floor(10000000000 + Math.random() * 90000000000);
       }
-
+    
+      // Function to update reservation number and generate image
       function updateReservationNumber() {
         const reservationNumber = globalReservationNumber;
         document.getElementById('reservationNumber').textContent = reservationNumber;
-
-        const text = `Thank You!\n \n\nYour Reservation Number: ${reservationNumber}`;
-        // const lines = [
-        //   'Thank You!',
-        //   'You Just Saved a Meal',
-        //   '',
-        //   `Your Reservation Number: ${reservationNumber}`
-        // ];
+    
+        const text = `Thank You!\n\nYour Reservation Number: ${reservationNumber}`;
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         canvas.width = 1920;
@@ -436,22 +435,23 @@
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         context.fillText(text, canvas.width / 2, canvas.height / 2);
-
+    
         const imageUrl = canvas.toDataURL('image/png');
         const blob = dataURLtoBlob(imageUrl);
         const url = URL.createObjectURL(blob);
-
+    
         const downloadLink = document.getElementById('downloadLink');
         downloadLink.href = url;
         downloadLink.download = 'reservation.png';
-
+    
         // Redirect when the modal is hidden
         const modalElement = document.getElementById('thankYouModal');
         modalElement.addEventListener('hidden.bs.modal', function () {
           window.location.href = 'product-view.html';
         });
       }
-
+    
+      // Convert data URL to Blob
       function dataURLtoBlob(dataURL) {
         const [header, data] = dataURL.split(',');
         const mimeString = header.split(':')[1].split(';')[0];
@@ -463,24 +463,42 @@
         }
         return new Blob([arrayBuffer], { type: mimeString });
       }
-
+    
+      // Import Firebase modules
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+      import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+    
+      const firebaseConfig = {
+        apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+        authDomain: "agrosharetest.firebaseapp.com",
+        databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "agrosharetest",
+        storageBucket: "agrosharetest.appspot.com",
+        messagingSenderId: "609785482458",
+        appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
+      };
+    
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+    
+      // Handle form submission
       document.getElementById('reservationForm').addEventListener('submit', function (event) {
         event.preventDefault();
-
+    
         console.log("reservationForm form submitted!");
-
+    
         let date = document.getElementById('date').value;
         let time = document.getElementById('time').value;
         let phone = document.getElementById('phone').value;
         let reservationForm = document.getElementById('reservationForm');
-
+    
         if (date === "" || time === "" || phone === "") {
           alert("Please fill out all fields.");
           return;
         }
-
+    
         globalReservationNumber = 'OrderID_' + Date.now();
-
+    
         set(ref(db, 'ReservationDetails/' + globalReservationNumber), {
           date: date,
           time: time,
@@ -495,69 +513,57 @@
           console.log("Error during submission: ", error);
         });
       });
-
+    
       document.getElementById('thankYouModal').addEventListener('show.bs.modal', updateReservationNumber);
+    
+      // Function to load product details from Firebase
+      function loadProductDetails() {
+  const productID = 'ProductID_1722783516258'; // Replace with dynamic ID if needed
+  const productRef = ref(db, 'Product_details/' + productID);
+
+  get(productRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      const productData = snapshot.val();
+      const productSection = document.getElementById('productSection');
+      productSection.innerHTML = `
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="border rounded">
+              <a href="#">
+                <img src="${productData.productImageUrl}" class="img-fluid rounded" alt="${productData.productName}">
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-6 pt-5 pb-5">
+            <h4 class="fw-bold mb-3">${productData.productName}</h4>
+            <p class="mb-3" style="font-weight: bold;">Category: ${productData.productType}</p>
+            <div class="productDescription">
+              <p>${productData.productdescription}</p>
+              <p><strong>Items Included:</strong><br>${productData.itemsIncluded}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      console.log("No data available");
+      // Optional: Display a message if no data is found
+      const productSection = document.getElementById('productSection');
+      productSection.innerHTML = `<p>No product details available.</p>`;
+    }
+  }).catch((error) => {
+    console.error("Error fetching product details: ", error);
+  });
+}
+
+// Call the function to load product details
+loadProductDetails();
+
+    
+      // Call the function to load product details
+      loadProductDetails();
     </script>
+    
 
-    <script type="module">
-      // Handle form submission
-
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-      import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
-        authDomain: "agrosharetest.firebaseapp.com",
-        databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "agrosharetest",
-        storageBucket: "agrosharetest.appspot.com",
-        messagingSenderId: "609785482458",
-        appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getDatabase(app);
-
-
-      document.getElementById('reservationForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        console.log("reservationForm form submitted!");  // Debugging step 1
-
-        let date = document.getElementById('date').value;
-        let time = document.getElementById('time').value;
-        let phone = document.getElementById('phone').value;
-        let reservationForm = document.getElementById('reservationForm');
-
-        if (date === "" || time === "" || phone === "") {
-          alert("Please fill out all fields.");
-          return;
-        }
-
-        globalReservationNumber = 'OrderID_' + Date.now();
-
-        set(ref(db, 'ReservationDetails/' + globalReservationNumber), {
-          date: date,
-          time: time,
-          phone: phone,
-          OrderID: globalReservationNumber,
-        }).then(() => {
-          var modalInstance = new bootstrap.Modal(document.getElementById('thankYouModal'));
-          modalInstance.show();
-          console.log("reservationForm form submitted!");  // Debugging step 1
-
-          // reservationForm.reset(); // Reset the form after successful submission
-
-          // window.location.href = 'product-view.html';
-        }).catch((error) => {
-          console.log("Error during submission: ", error);
-        });
-      });
-
-      // Add event listener to update reservation number when the modal is about to be shown
-      document.getElementById('thankYouModal').addEventListener('show.bs.modal', updateReservationNumber);
-
-    </script>
 
 
 
