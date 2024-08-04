@@ -205,6 +205,7 @@
                   })
                   .then(() => {
                     console.log('User data saved to database');
+                    alert("Registration Successful");
                     // Redirect to login page
                     window.location.href = 'loginACH.html';
                   })
@@ -213,6 +214,7 @@
                   });
                 })
                 .catch((error) => {
+                  alert("Error registering user");
                   console.error('Error registering user:', error);
                 });
             });

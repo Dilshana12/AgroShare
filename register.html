@@ -175,8 +175,10 @@
         });
 
         console.log('User registered and details saved:', user);
+        alert("Registration Successful");
         window.location.href = 'login.html';
       } catch (error) {
+        alert("Error registering user");
         console.error('Error registering user:', error);
       }
     });
