@@ -268,7 +268,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-    import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+    import { ref as dbRef, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
@@ -282,56 +283,50 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-
-    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
-
     const storage = getStorage(app);
 
-    //----
-
-    //correct
-    document.getElementById('farmerform').addEventListener('submit', function (event) {
+    document.getElementById('farmerform').addEventListener('submit', async function(event) {
         event.preventDefault();
-
-        console.log("farmerform form submitted!");  // Debugging step 1
 
         let farmName = document.getElementById('farmName').value;
         let farmProvince = document.getElementById('farmProvince').value;
         let productType = document.getElementById('productType').value;
         let productName = document.getElementById('productName').value;
         let productdescription = document.getElementById('productdescription').value;
-        
+        let productImageFile = document.getElementById('productImage').files[0];
 
-        if (farmName === "" || farmProvince === "" || productType === "" || productName === ""|| productdescription === "") {
+        if (farmName === "" || farmProvince === "" || productType === "" || productName === "" || productdescription === "" || !productImageFile) {
             alert("Please fill out all fields.");
             return;
         }
 
-        const uniqueCode = 'ProductID_' + Date.now();
+        try {
+            const uniqueCode = 'ProductID_' + Date.now();
 
-        set(ref(db, 'Product_details/' + uniqueCode), {
-            farmName: farmName,
-            farmProvince: farmProvince,
-            productName : productName,
-            productType: productType,
-            productdescription : productdescription
+            // Upload image to Firebase Storage
+            const imageRef = storageRef(storage, 'Product_images/' + uniqueCode + '_' + productImageFile.name);
+            await uploadBytes(imageRef, productImageFile);
+            const imageUrl = await getDownloadURL(imageRef);
 
-        }).then(() => {
-            alert("Details submitted for review! ");
-            // window.location.href = 'loginACH.html';
+            // Store data in Realtime Database
+            await set(dbRef(db, 'Product_details/' + uniqueCode), {
+                farmName: farmName,
+                farmProvince: farmProvince,
+                productName: productName,
+                productType: productType,
+                productdescription: productdescription,
+                productImageUrl: imageUrl // Store the image URL
+            });
+
+            alert("Details submitted for review!");
             farmerform.reset();
-        }).catch((error) => {
-            // alert("Registration unsuccessful. Please try again.");
-            console.log("Error during farmerform submission: ", error);
-        });
-
-    }).catch((error) => {
-        // alert("Error checking email: " + error.message);  // Debugging step 3
-        console.error("Error checking email:", error);
+        } catch (error) {
+            console.error("Error during form submission: ", error);
+            alert("There was an error submitting your data. Please try again.");
+        }
     });
-
-
 </script>
+
 
 
 
