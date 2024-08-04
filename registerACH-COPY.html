@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>User Portal | AgroShare</title>
+  <title> User Portal | AgroShare </title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -16,7 +16,9 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Marcellus:wght@400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Marcellus:wght@400&display=swap"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -35,6 +37,8 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+
+
 
   <style>
     .icon {
@@ -79,12 +83,15 @@
     }
   </style>
 
+  <!-- <scritp type="module" src="registerACH.js" defer></scritp> -->
+
 </head>
 
 <body class="products-page">
   <!-- Video Background -->
   <video autoplay muted loop class="video-background">
-    <source src="C:\Users\Najma\Documents\ANC\Research Final\Project-Agro\assets\Video\8540468-hd_1920_1080_30fps.mp4" type="video/mp4">
+    <source src="assets/Video/8540468-hd_1920_1080_30fps.mp4"
+      type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
@@ -124,13 +131,18 @@
                 <i class="fas fa-seedling"></i> ACH Register
             </div>
           </div>
-          <form id="register-form" onsubmit="event.preventDefault();">
+          <form id="registrationFormACH" action="loginACH.html">
             <label for="email">Email:</label><br>
             <input type="email" id="email" style="width: 100%;" required> <br>
             <label for="password">Password:</label> <br>
             <input type="password" id="password" style="width: 100%;" required> <br>
-            <div style="text-align: left;"><br>
-              <button type="submit" class="btn btn-success btn-block">Register</button>
+            <!-- <div style="text-align: left;"><br>
+              <button type="submit" id="registerACH"  class="btn btn-success">Register</button>
+            </div> -->
+            <div class="row justify-content-center mt-4">
+              <div class="col-md-3 text-center">
+                <button type="submit" class="btn btn-success" id="registerACH">Register</button>
+              </div>
             </div>
           </form>
 
@@ -138,7 +150,8 @@
             Already Registered? <a href="loginACH.html">Login Now</a>
           </div>
 
-          <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+          <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog"
+            aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -163,74 +176,64 @@
           <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-          <script type="module">
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-            import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
-            import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+          <script>
+            // Farmer Form Toggle
+            document.getElementById('farmerToggleRegister').addEventListener('click', function (event) {
+              event.preventDefault();
+              document.getElementById('farmerLoginForm').style.display = 'none';
+              document.getElementById('farmerRegisterForm').style.display = 'block';
+            });
 
-            // Your web app's Firebase configuration
-            const firebaseConfig = {
-              apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
-              authDomain: "agrosharetest.firebaseapp.com",
-              databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
-              projectId: "agrosharetest",
-              storageBucket: "agrosharetest.appspot.com",
-              messagingSenderId: "609785482458",
-              appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
-            };
+            document.getElementById('farmerToggleLogin').addEventListener('click', function (event) {
+              event.preventDefault();
+              document.getElementById('farmerLoginForm').style.display = 'block';
+              document.getElementById('farmerRegisterForm').style.display = 'none';
+            });
 
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const database = getDatabase(app);
+            // <!-- // Elderly Care Home Form Toggle
+            document.getElementById('elderlyToggleRegister').addEventListener('click', function (event) {
+              event.preventDefault();
+              document.getElementById('elderlyLoginForm').style.display = 'none';
+              document.getElementById('elderlyRegisterForm').style.display = 'block';
+            });
 
-            // Register user
-            document.getElementById('register-form').addEventListener('submit', (e) => {
-              e.preventDefault();
-              const email = document.getElementById('email').value;
-              const password = document.getElementById('password').value;
+            document.getElementById('elderlyToggleLogin').addEventListener('click', function (event) {
+              event.preventDefault();
+              document.getElementById('elderlyLoginForm').style.display = 'block';
+              document.getElementById('elderlyRegisterForm').style.display = 'none';
+            });
 
-              createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                  // Signed in
-                  const user = userCredential.user;
-                  console.log('User registered:', user);
+            // User Type Toggle
+            document.getElementById('toggleFarmer').addEventListener('click', function () {
+              document.getElementById('farmerForm').style.display = 'block';
+              document.getElementById('elderlyForm').style.display = 'none';
+              document.getElementById('toggleFarmer').classList.add('active');
+              document.getElementById('toggleElderly').classList.remove('active');
+            });
 
-                  // Save user data to Realtime Database
-                  const userRef = ref(database, 'registerdetails/' + user.uid);
-                  set(userRef, {
-                    email: email,
-                    password: password,
-                    role: 'ACH'
-                  })
-                  .then(() => {
-                    console.log('User data saved to database');
-                    // Redirect to login page
-                    window.location.href = 'loginACH.html';
-                  })
-                  .catch((error) => {
-                    console.error('Error saving user data to database:', error);
-                  });
-                })
-                .catch((error) => {
-                  console.error('Error registering user:', error);
-                });
+            document.getElementById('toggleElderly').addEventListener('click', function () {
+              document.getElementById('farmerForm').style.display = 'none';
+              document.getElementById('elderlyForm').style.display = 'block';
+              document.getElementById('toggleFarmer').classList.remove('active');
+              document.getElementById('toggleElderly').classList.add('active');
             });
           </script>
-        </div>
-      </div>
-    </div>
   </main>
 
   <div class="mt-5"></div>
   <footer id="footer" class="footer dark-background">
+
+
     <div class="copyright text-center">
-      <div class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
+      <div
+        class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
+
         <div class="d-flex flex-column align-items-center align-items-lg-start">
           <div>
             © Copyright <strong><span>MyWebsite</span></strong>. All Rights Reserved
           </div>
           <div class="credits">
+
             Designed by <a href="https://bootstrapmade.com/">Najma Dhasthakeer</a>
           </div>
         </div>
@@ -241,12 +244,15 @@
           <a href=""><i class="bi bi-instagram"></i></a>
           <a href=""><i class="bi bi-linkedin"></i></a>
         </div>
+
       </div>
     </div>
+
   </footer>
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Preloader -->
   <div id="preloader"></div>
@@ -260,5 +266,68 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import { query, get, orderByChild, equalTo, ref, set, getDatabase } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCO8BRzAyhLhClksHIN-Bspq5P3reiJU7c",
+      authDomain: "agrosharetest.firebaseapp.com",
+      databaseURL: "https://agrosharetest-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "agrosharetest",
+      storageBucket: "agrosharetest.appspot.com",
+      messagingSenderId: "609785482458",
+      appId: "1:609785482458:web:91604937e9e780f6a2e9e3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    document.getElementById('registrationFormACH').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      console.log("Registration form submitted!");  // Debugging step 1
+
+      let email = document.getElementById('email').value;
+      let password = document.getElementById('password').value;
+
+      if (email === "" || password === "") {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      console.log("Checking if email exists...");  // Debugging step 2
+
+      const emailRef = ref(db, 'ACH_registerdetails');
+      const emailQuery = query(emailRef, orderByChild('Email'), equalTo(email));
+
+      get(emailQuery).then((snapshot) => {
+        if (snapshot.exists()) {
+          alert("This email is already registered. Please use a different email or login.");
+          console.log("Email already exists: ", snapshot.val());
+        } else {
+          console.log("No email found, proceeding with registration...");
+
+          const uniqueCode = 'ACH_' + Date.now();
+
+          set(ref(db, 'ACH_registerdetails/' + uniqueCode), {
+            Email: email,
+            Password: password,
+            Code: uniqueCode
+          }).then(() => {
+            alert("Registration successful! Redirecting to login page...");
+            window.location.href = 'loginACH.html';
+          }).catch((error) => {
+            alert("Registration unsuccessful. Please try again.");
+            console.log("Error during registration: ", error);
+          });
+        }
+      }).catch((error) => {
+        // alert("Error checking email: " + error.message);  // Debugging step 3
+        console.error("Error checking email:", error);
+      });
+    });
+  </script>
 </body>
+
 </html>

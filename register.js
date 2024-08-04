@@ -22,6 +22,8 @@ document.getElementById('register-form').addEventListener('submit', (e) => {
         .then((userCredential) => {
             const user = userCredential.user;
             console.log('User registered:', user);
+            window.location.href = 'login.html';
+            window.location.href = 'login.html';
         })
         .catch((error) => {
             console.error('Error registering user:', error);
