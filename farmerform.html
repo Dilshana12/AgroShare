@@ -309,7 +309,7 @@
             const imageUrl = await getDownloadURL(imageRef);
 
             // Store data in Realtime Database
-            await set(dbRef(db, 'Product_details/' + uniqueCode), {
+            await set(dbRef(db, 'Product_details_to_be_confirm/' + uniqueCode), {
                 farmName: farmName,
                 farmProvince: farmProvince,
                 productName: productName,
